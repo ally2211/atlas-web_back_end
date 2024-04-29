@@ -1,0 +1,12 @@
+{
+  "name": "atlas-web_back_end",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "node ES6_basic/0-main.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
