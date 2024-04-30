@@ -14,9 +14,11 @@
     "@babel/cli": "^7.24.5",
     "@babel/core": "^7.24.5",
     "@babel/preset-env": "^7.24.5",
+    "@eslint/js": "^9.1.1",
     "babel-jest": "^29.7.0",
     "eslint": "^9.1.1",
-    "globals": "^15.1.0"
+    "globals": "^15.1.0",
+    "optionator": "^0.9.4"
   },
   "dependencies": {
     "core-js": "^3.37.0"
