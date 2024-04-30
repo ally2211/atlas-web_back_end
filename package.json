@@ -5,12 +5,20 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "node ES6_basic/0-main.js"
+    "dev": "node ES6_basic/1-main.js",
+    "build": "npx babel source --out-dir lib"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@babel/cli": "^7.24.5",
+    "@babel/core": "^7.24.5",
+    "@babel/preset-env": "^7.24.5",
+    "babel-jest": "^29.7.0",
     "eslint": "^9.1.1",
     "globals": "^15.1.0"
+  },
+  "dependencies": {
+    "core-js": "^3.37.0"
   }
 }
