@@ -8,5 +8,9 @@
     "dev": "node ES6_basic/0-main.js"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^9.1.1",
+    "globals": "^15.1.0"
+  }
 }
