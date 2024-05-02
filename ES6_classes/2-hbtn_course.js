@@ -3,7 +3,7 @@
 export default class HolbertonCourse {
   constructor(name, length, students) {
     const validateInputs = () => {
-      if (typeof name !== 'string' || typeof length !== 'number' || !Array.isArray(students) || !students.every(student => typeof student === 'string')) {
+      if (typeof name !== 'string' || typeof length !== 'number' || !Array.isArray(students) || !students.every((student) => typeof student === 'string')) {
         throw new Error('Invalid input types');
       }
     };
@@ -41,7 +41,7 @@ export default class HolbertonCourse {
 
   set students(value) {
     const setStudents = (value) => {
-      if (!Array.isArray(value) || !value.every(student => typeof student === 'string')) {
+      if (!Array.isArray(value) || !value.every((student) => typeof student === 'string')) {
         throw new TypeError('Students must be an array of strings.');
       }
       this._students = value;
