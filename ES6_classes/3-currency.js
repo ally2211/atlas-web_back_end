@@ -3,7 +3,7 @@
 export default class Currency {
   constructor(code, name) {
     const validateInputs = () => {
-      if (typeof code !== 'string' || typeof name !== 'string' ) {
+      if (typeof code !== 'string' || typeof name !== 'string') {
         throw new Error('Invalid input types');
       }
     };
@@ -33,6 +33,7 @@ export default class Currency {
     }
     this._code = value;
   }
+
   displayFullCurrency() {
     return `${this._name} (${this._code})`;
   }
