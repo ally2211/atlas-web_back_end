@@ -1,34 +1,35 @@
-// Importing using CommonJS syntax
-const globals = require('globals');
-const { configs } = require('@eslint/js');
-
 module.exports = {
-  // Applying global variables
-  globals: globals.browser,
-
-  // ESLint built-in recommended configurations
-  extends: [
-    "eslint:recommended",
-    configs.recommended  // This assumes @eslint/js exports a 'recommended' config
-  ],
-
-  // Additional ESLint rules and configurations
-  rules: {
-    'indent': ['error', 2],
-    'semi': ['error', 'always'],
-    'no-unused-vars': ['warn']
-  },
-
-  // Parser options to define ECMAScript support
-  parserOptions: {
-    ecmaVersion: 2021,
-    sourceType: 'module'
-  },
-
-  // Define environment settings
   env: {
-    browser: true,
-    es2021: true,
-    node: true
-  }
+    browser: false,
+    es6: true,
+    jest: true,
+  },
+  extends: [
+    'airbnb-base',
+    'plugin:jest/all',
+  ],
+  globals: {
+    Atomics: 'readonly',
+    SharedArrayBuffer: 'readonly',
+  },
+  parserOptions: {
+    ecmaVersion: 2018,
+    sourceType: 'module',
+  },
+  plugins: ['jest'],
+  rules: {
+    'no-console': 'off',
+    'no-shadow': 'off',
+    'no-restricted-syntax': [
+      'error',
+      'LabeledStatement',
+      'WithStatement',
+    ],
+  },
+  overrides:[
+    {
+      files: ['*.js'],
+      excludedFiles: 'babel.config.js',
+    }
+  ]
 };
