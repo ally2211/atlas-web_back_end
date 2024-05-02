@@ -6,7 +6,7 @@ export default class HolbertonCourse {
       if (typeof name !== 'string' || typeof length !== 'number' || !Array.isArray(students) || !students.every(student => typeof student === 'string')) {
         throw new Error('Invalid input types');
       }
-     };
+    };
     validateInputs();
     this._name = name;
     this._length = length;
