@@ -4,7 +4,7 @@ function ClassRoom(maxStudentsSize) {
 }
 
 // Add a method to the prototype to describe the classroom capacity
-ClassRoom.prototype.describeCapacity = function() {
+ClassRoom.prototype.describeCapacity = function () {
   return `This classroom can accommodate up to ${this._maxStudentsSize} students.`;
 };
 
