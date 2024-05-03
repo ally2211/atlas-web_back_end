@@ -47,7 +47,7 @@ export default class Pricing {
     if (typeof amount !== 'number' || typeof convert !== 'number') {
       throw new TypeError('Both amount and convert must be numbers.');
     }
-    return this._amount * convert;
+    return this.amount * convert;
   }
 
   displayFullPrice() {
