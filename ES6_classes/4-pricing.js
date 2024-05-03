@@ -1,5 +1,6 @@
 // File: 2-hbtn_course.js
-import Currency from './3-currency'
+import Currency from './3-currency';
+
 export default class Pricing {
   constructor(amount, currency) {
     const validateInputs = () => {
@@ -26,18 +27,25 @@ export default class Pricing {
     this._amount = value;
   }
 
- // Getter for currency
- get currency() {
+  // Getter for currency
+  get currency() {
     return this._currency;
- }
+  }
+  
+  // Setter for currency
+  set currency(value) {
+  if (!(value instanceof Currency)) {
+    throw new TypeError('Currency must be an instance of Currency.');
+  }
+  this._currency = value;
+  }
 
- // Setter for currency
- set currency(value) {
-    if (!(value instanceof Currency)) {
-      throw new TypeError('Currency must be an instance of Currency.');
+  convertPrice(amount, convert) {
+    if (typeof amount !== 'number' || typeof convert !== 'number') {
+      throw new Error('Invalid input types');
     }
-    this._currency = value;
- }
+    return amount * convert;
+  }
 
   displayFullPrice() {
     return `${this._amount} ${this._currency.name} (${this._currency.code})`;
