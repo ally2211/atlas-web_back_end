@@ -31,18 +31,21 @@ export default class Pricing {
   get currency() {
     return this._currency;
   }
-  
+
   // Setter for currency
   set currency(value) {
-  if (!(value instanceof Currency)) {
-    throw new TypeError('Currency must be an instance of Currency.');
-  }
-  this._currency = value;
+    if (!(value instanceof Currency)) {
+      throw new TypeError('Currency must be an instance of Currency.');
+    }
+    this._currency = value;
   }
 
+  /**
+   * Converts a given amount to another currency based on a conversion rate.
+   */
   convertPrice(amount, convert) {
     if (typeof amount !== 'number' || typeof convert !== 'number') {
-      throw new Error('Invalid input types');
+      throw new TypeError('Both amount and convert must be numbers.');
     }
     return amount * convert;
   }
