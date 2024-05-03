@@ -26,6 +26,19 @@ export default class Pricing {
     this._amount = value;
   }
 
+ // Getter for currency
+ get currency() {
+    return this._currency;
+ }
+
+ // Setter for currency
+ set currency(value) {
+    if (!(value instanceof Currency)) {
+      throw new TypeError('Currency must be an instance of Currency.');
+    }
+    this._currency = value;
+ }
+
   displayFullPrice() {
     return `${this._amount} ${this._currency.name} (${this._currency.code})`;
   }
