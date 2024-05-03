@@ -43,7 +43,7 @@ export default class Pricing {
   /**
    * Converts a given amount to another currency based on a conversion rate.
    */
-  convertPrice(amount, convert) {
+  static convertPrice(amount, convert) {
     if (typeof amount !== 'number' || typeof convert !== 'number') {
       throw new TypeError('Both amount and convert must be numbers.');
     }
