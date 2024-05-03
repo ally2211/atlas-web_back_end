@@ -1,14 +1,8 @@
 export default class Car {
   constructor(brand, motor, color) {
-    const validateInputs = () => {
-      if (typeof brand !== 'string' || typeof motor !== 'string' || typeof color !== 'string') {
-        throw new Error('Invalid input types');
-      }
-    };
-    validateInputs();
-    this._brand = brand;
-    this._motor = motor;
-    this._color = color;
+    this._brand = brand === undefined ? undefined : brand;
+    this._motor = motor === undefined ? undefined : motor;
+    this._color = color === undefined ? undefined : color;
   }
 
   get brand() {
@@ -47,6 +41,6 @@ export default class Car {
   // Override the toString method to include both the concise and detailed representation
   // Method for the detailed string representation
   cloneCar() {
-    return new this.constructor(this._brand, this._motor, this._color);
+    return new this.constructor();
   }
 }
