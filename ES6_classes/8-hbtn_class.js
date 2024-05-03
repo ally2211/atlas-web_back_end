@@ -6,7 +6,7 @@ export default class HolbertonClass {
       }
       if (typeof location !== 'string') {
         throw new TypeError('Location must be a string.');
-      }   
+      }
     };
     validateInputs();
     this._size = size;
