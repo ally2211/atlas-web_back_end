@@ -1,5 +1,3 @@
-import Currency from './3-currency';
-
 export default class Building {
   constructor(sqft) {
     const validateInputs = () => {
@@ -22,7 +20,8 @@ export default class Building {
     this._sqft = value;
   }
 
+  // eslint-disable-next-line class-methods-use-this
   evacuationWarningMessage() {
-    throw new Error("Class extending Building must override evacuationWarningMessage");
+    throw new Error('Class extending Building must override evacuationWarningMessage');
   }
 }
