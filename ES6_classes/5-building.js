@@ -1,9 +1,13 @@
+import Currency from './3-currency';
+
 export default class Building {
   constructor(sqft) {
-    if (new.target === Building) {
-      throw new Error("Building cannot be instantiated directly");
-    }
-    this._validateSqft(sqft);
+    const validateInputs = () => {
+      if (typeof sqft !== 'number') {
+        throw new TypeError('sqft must be a number.');
+      }
+    };
+    validateInputs();
     this._sqft = sqft;
   }
 
@@ -12,14 +16,10 @@ export default class Building {
   }
 
   set sqft(value) {
-    this._validateSqft(value);
-    this._sqft = value;
-  }
-
-  _validateSqft(sqft) {
-    if (typeof sqft !== 'number') {
+    if (typeof value !== 'number') {
       throw new TypeError('sqft must be a number.');
     }
+    this._sqft = value;
   }
 
   evacuationWarningMessage() {
