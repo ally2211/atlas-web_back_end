@@ -47,6 +47,6 @@ export default class Car {
   // Override the toString method to include both the concise and detailed representation
   // Method for the detailed string representation
   cloneCar() {
-    return new new.target(this._brand, this._motor, this._color);
+    return new this.constructor(this._brand, this._motor, this._color);
   }
 }
