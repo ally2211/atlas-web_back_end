@@ -1,6 +1,6 @@
 export default function appendToEachArrayValue(array, appendString) {
-  for (let element of array) {
-    element = appendString + element;
-  }
+  for (const [index, value] of array.entries()) {
+    array[index] = appendString + value; // Appends ' fruit' to each element
+}
   return array;
 }
