@@ -4,8 +4,8 @@ export default function getListStudents() {
     { id: 5, firstName: 'Serena', location: 'San Francisco' },
   ];
 
-  const updatedStudentArray = studentArray.map(student => ({
-    ...student}));
+  const updatedStudentArray = studentArray.map((student) => ({
+    ...student }));
 
   return updatedStudentArray;
 }
