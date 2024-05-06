@@ -1,8 +1,8 @@
 export default function cleanSet(newSet, startString) {
   const modifiedElements = [];
-  
-  if (startString === '') {
-    return '';
+  // Check if startString is not a string or is an empty string
+  if (typeof startString !== 'string' || startString === '') {
+    throw new TypeError('startString must be a non-empty string');
   }
   newSet.forEach((element) => {
     if (element.startsWith(startString)) {
