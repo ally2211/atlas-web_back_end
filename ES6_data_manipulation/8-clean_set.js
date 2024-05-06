@@ -1,7 +1,7 @@
 export default function cleanSet(newSet, startString) {
   const modifiedElements = [];
   // Check if startString is not a string or is an empty string
-  if (startString === '') {
+  if (typeof startString === 'undefined' || startString === '' ) {
     return '';
   }
   if (typeof startString !== 'string') {
