@@ -5,11 +5,11 @@ export default function getFullResponseFromAPI(success) {
       // Resolve the promise with an object
       resolve({
         status: 200,
-        body: 'Success'
+        body: 'Success',
       });
     } else {
       // Reject the promise with an error
       reject(new Error('The fake API is not working currently'));
     }
-    });
+  });
 }
