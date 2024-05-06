@@ -1,4 +1,3 @@
-
 export default function updateStudentGradeByCity(students, city, newGrades) {
   if (!Array.isArray(students)) {
     return [];
@@ -9,13 +8,10 @@ export default function updateStudentGradeByCity(students, city, newGrades) {
   const updatedStudents = locationStudents.map(student => {
     const matchingId = newGrades.find(grade => grade.id === student.id);
     if (matchingId) {
-      return { ...student, grade: matchingId.grade };
+      updatedStudents = { ...student, grade: matchingId.grade };
+      console.log(matchingId.grade);
     }
     else return { ...student, grade: 'N/A' };
-    });
-
-    console.log('Students:', students);
-    console.log('New Grades:', newGrades);
-    console.log('Updated Students:', updatedStudents);
-  
+  });
+  return updatedStudents;
 }
