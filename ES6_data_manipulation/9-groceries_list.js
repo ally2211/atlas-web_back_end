@@ -1,4 +1,4 @@
-export default function groceriesList(newSet, startString) {
+export default function groceriesList() {
   const itemMap = new Map();
   itemMap.set('Apples', 10);
   itemMap.set('Tomatoes', 10);
@@ -6,4 +6,4 @@ export default function groceriesList(newSet, startString) {
   itemMap.set('Rice', 1);
   itemMap.set('Banana', 5);
   return itemMap;
-}  
+}
