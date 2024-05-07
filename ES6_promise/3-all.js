@@ -1,9 +1,10 @@
 // signup.js
-import { uploadPhoto, createUser } from './utils.js'; // Adjust the path as necessary
+//import { uploadPhoto, createUser } from './utils.js'; // Adjust the path as necessary
+import * as utilsFunctions from "./utils";
 
 export default function handleProfileSignup() {
  // Collect all promises
- const promises = [uploadPhoto(), createUser()];
+ const promises = [utilsFunctions.uploadPhoto(), utilsFunctions.createUser()];
 
  // Use Promise.all to wait for all promises to resolve
  Promise.all(promises)
