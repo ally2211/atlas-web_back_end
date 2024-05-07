@@ -1,4 +1,4 @@
-// 1-promise.js
+// 2=then.js
 export default function handleResponseFromAPI(promise) {
   return new Promise((resolve, reject) => {
     if (promise) {
@@ -10,8 +10,8 @@ export default function handleResponseFromAPI(promise) {
       console.log('Got a response from the API');
     } else {
       // Reject the promise with an error
-      console.log('Signup system offline');
       reject(new Error());
+      console.log('Signup system offline');
     }
   });
 }
