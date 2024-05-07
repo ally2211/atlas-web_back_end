@@ -7,7 +7,6 @@ export default function handleResponseFromAPI(promise) {
         body: 'success'
       };
     }).catch((error) => {
-      console.error('Error from API:', error); // Log the error message
       throw error; // Re-throw the error to maintain rejection
     });
   } else {
