@@ -13,7 +13,7 @@ export default function handleProfileSignup() {
       const photoResult = results[0];
       const userResult = results[1];
       // Log the body, firstName, and lastName to the console
-      console.log(photoResult.body, userResult.firstName, userResult.lastName);
+      console.log(`${photoResult.body} ${userResult.firstName} ${userResult.lastName}`);
     })
     .catch((error) => {
       // Log the error message to the console
