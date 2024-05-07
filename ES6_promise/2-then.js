@@ -10,5 +10,5 @@ export default function handleResponseFromAPI(promise) {
       status: 200,
       body: 'success',
     };
-  }).catch((_error) => new Error());
+  }).catch(() => Promise.reject(new Error()));
 }
