@@ -12,7 +12,6 @@ export default function handleProfileSignup() {
       // Assuming the first result is from uploadPhoto and the second is from createUser
       const photoResult = results[0];
       const userResult = results[1];
-
       // Log the body, firstName, and lastName to the console
       console.log(photoResult.body, userResult.firstName, userResult.lastName);
     })

@@ -1,4 +1,3 @@
-
 // utils.js
 export function uploadPhoto() {
  // Simulate an asynchronous operation
