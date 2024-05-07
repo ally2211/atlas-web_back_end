@@ -1,17 +1,19 @@
 // 2=then.js
 export default function handleResponseFromAPI(promise) {
-  return new Promise((resolve, reject) => {
-    if (promise) {
-      // Resolve the promise with an object
-      resolve({
-        status: 200,
-        body: 'Success',
+  if (promise instanceof Promise) {
+    return new Promise((resolve, reject) => {
+      promise.then(() => {
+        resolve({
+          status: 200,
+          body: 'Success'
+        });
+      }).catch((error) => {
+        reject(error);
       });
-      console.log('Got a response from the API');
+      console.log('Got a response from the API')
+    });
     } else {
-      // Reject the promise with an error
-      reject(new Error());
-      console.log('Signup system offline');
-    }
-  });
+      // If the passed argument is not a promise, reject the new promise with an error
+      return Promise.reject(new Error());
+    };
 }
