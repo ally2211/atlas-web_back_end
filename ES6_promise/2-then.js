@@ -10,7 +10,6 @@ export default function handleResponseFromAPI(promise) {
       }).catch((error) => {
         reject(error);
       });
-      console.log('Got a response from the API')
     });
     } else {
       // If the passed argument is not a promise, reject the new promise with an error
