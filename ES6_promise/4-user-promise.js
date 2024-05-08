@@ -4,8 +4,8 @@ export default function handlePrsignUpUser(firstName, lastName) {
     if (firstName && lastName) {
       // Resolve the promise with an object
       resolve({
-        firstName: 'Bob',
-        lastName: 'Dylan',
+        firstName: firstName,
+        lastName: lastName,
       });
     }
   });
