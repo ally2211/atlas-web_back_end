@@ -1,18 +1,15 @@
-import * as utilsFunctions from "./utils";
-
-export default function handleProfileSignup() {
- // Collect all promises
- const promises = [utilsFunctions.uploadPhoto(), utilsFunctions.createUser()];
-
- // Use Promise.all to wait for all promises to resolve
- Promise.all(promises)
-    .then((results) => {
-      // results is an array of resolved values
-      // Assuming the first result is from uploadPhoto and the second is from createUser
-      const photoResult = results[0];
-      const userResult = results[1];
-      // Log the body, firstName, and lastName to the console
-      console.log(`${photoResult.body} ${userResult.firstName} ${userResult.lastName}`);
-    })
-    .catch(() => new Error('Signup system offline'));
+export default function handlePrsignUpUser(firstName, lastName) {
+  // Example asynchronous operation
+  return new Promise((resolve, reject) => {
+    if (firstName && lastName) {
+      // Resolve the promise with an object
+      resolve({
+        firstName: 'Bob',
+        lastName: 'Dylan',
+      });
+    } else {
+      // Reject the promise with an error
+      reject(new Error());
+    }
+  });
 }
