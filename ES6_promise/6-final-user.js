@@ -1,13 +1,16 @@
 // signup.js
-import signUpUser from "./4-user-promise"
-import uploadPhoto from './5-photo-reject'
+import signUpUser from './4-user-promise';
+import uploadPhoto from './5-photo-reject';
 
 export default function handleProfileSignup(firstName, lastName, fileName) {
   return Promise.all([signUpUser(firstName, lastName), uploadPhoto(fileName)]).then((results) => {
-    resolve({
-        status,
-        firstName, lastName,
-      });
-    console.log(`${results[0].firstName} ${results[0].lastName} ${results[1].fileName}`);
+    const { status } = results[0]; // Assuming status is a property of the result from signUpUser
+    const user = {
+      status,
+      firstName,
+      lastName,
+    };
+    console.log(`${user.firstName} ${user.lastName}`);
+    return user;
   }).catch(() => console.log(''));
 }
