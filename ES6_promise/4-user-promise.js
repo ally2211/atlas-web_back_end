@@ -1,4 +1,4 @@
-export default function handlePrsignUpUser(firstName, lastName) {
+export default function signUpUser(firstName, lastName) {
   // Example asynchronous operation
   return new Promise((resolve) => {
     if (firstName && lastName) {
