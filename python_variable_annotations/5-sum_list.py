@@ -7,4 +7,4 @@ def sum_list(list:list) -> float:
     """
     Sum a list
     """
-    return round(sum(list), 2)
+    return sum(list)
