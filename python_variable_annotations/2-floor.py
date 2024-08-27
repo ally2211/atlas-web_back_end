@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-import math
 """
 This module provides utilities for getting the floor of a float
 """
+import math
 
 
 def floor(x: float) -> int:
