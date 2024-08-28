@@ -2,9 +2,11 @@
 """
  Complex types - mixed list
 """
+from typing import List
 
-def sum_list(list:list) -> float:
+
+def sum_list(numbers: List[float]) -> float:
     """
     Sum a list
     """
-    return sum(list)
+    return sum(numbers)
