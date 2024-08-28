@@ -5,7 +5,7 @@
 from typing import List, Union
 
 
-def sum_mixed_list (numbers: List[Union[int,float]]) -> float:
+def sum_mixed_list(numbers: List[Union[int, float]]) -> float:
     """
     Sum a list of mixed types
     """
