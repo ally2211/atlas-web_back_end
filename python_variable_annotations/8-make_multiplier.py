@@ -5,7 +5,7 @@ Complex types - functions
 from typing import Callable
 
 
-def make_multiplier(y: float) -> Callable[[float], float]:
+def make_multiplier(m: float) -> Callable[[float], float]:
     """
     create multiplier
     """
@@ -13,5 +13,5 @@ def make_multiplier(y: float) -> Callable[[float], float]:
         """
         multiplier
         """
-        return (k * y)
+        return (k * m)
     return multiplier
