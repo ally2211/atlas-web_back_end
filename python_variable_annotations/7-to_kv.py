@@ -9,4 +9,4 @@ def to_kv(k: str, v: Union[int, float]) -> Tuple[str, float]:
     """
     Sum a list of mixed types
     """
-    return [k, v**2]
+    return (k, v**2)
