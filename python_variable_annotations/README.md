@@ -31,3 +31,15 @@ mypy your_script.py
     - i_understand_annotations, a boolean with a value of True
     - school, a string with a value of “Holberton"
 - Task 5:  Write a type-annotated function sum_list which takes a list input_list of floats as argument and returns their sum as a float.
+```python
+from typing import List
+
+
+def sum_list(numbers: List[float]) -> float:
+    """
+    Sum a list
+    """
+    return sum(numbers)
+
+```
+- Task 6:  Write a type-annotated function sum_mixed_list which takes a list mxd_lst of integers and floats and returns their sum as a float.
