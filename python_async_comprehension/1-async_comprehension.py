@@ -4,15 +4,12 @@
 '''
 import asyncio
 import random
-from typing import AsyncGenerator
-async_comprehension = __import__('1-async_comprehension').async_comprehension
+from typing import List
+async_generator = __import__('0-async_generator').async_generator
 
 
-async def async_comprehension() -> float:
+async def async_comprehension() -> List[float]:
     '''
-    loop 10 times, each time asynchronously wait 1 second,
-    then yield a random number between 0 and 10
+    returns list of floats
     '''
-    for i in range(10):
-        await asyncio.sleep(1)
-        yield random.uniform(0, 10)  # Yield a random integer between 0 and 10
+    return [x async for x in async_generator()]
