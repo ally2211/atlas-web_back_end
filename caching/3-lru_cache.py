@@ -20,7 +20,7 @@ class LRUCache(BaseCaching):
         if key in self.cache_data:
             # If the key already exists, move it to the end
             del self.cache_data[key]
-            
+
         # Add the new key-item pair to the cache
         self.cache_data[key] = item
 
@@ -36,6 +36,7 @@ class LRUCache(BaseCaching):
             return None
 
         # Move the accessed item to the end to mark it as recently used
-        item = self.cache_data.pop(key) # remove the entry yet retrieve the item value
+        # remove the entry yet retrieve the item value
+        item = self.cache_data.pop(key)
         self.cache_data[key] = item
         return item
