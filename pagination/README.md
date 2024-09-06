@@ -218,3 +218,11 @@ In this case, the tuple is used to group together related data (latitude and lon
 
 ### Conclusion:
 Tuples are a versatile and efficient data structure when you need to store ordered, unchangeable collections of items. They're widely used when the immutability of data is important, like in function return values or configuration settings that shouldn't be altered after initialization.
+
+## Task 1:  Simple Pagination
+Implement a method named get_page that takes two integer arguments page with default value 1 and page_size with default value 10.
+
+You have to use this CSV file (same as the one presented at the top of the project)
+Use assert to verify that both arguments are integers greater than 0.
+Use index_range to find the correct indexes to paginate the dataset correctly and return the appropriate page of the dataset (i.e. the correct list of rows).
+If the input arguments are out of range for the dataset, an empty list should be returned.
