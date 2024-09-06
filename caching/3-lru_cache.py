@@ -17,20 +17,18 @@ class LRUCache(BaseCaching):
         if key is None or item is None:
             return
 
-        # Add the new item to the cache
         if key in self.cache_data:
-            # If the key already exists, remove it
+            # If the key already exists, move it to the end
             del self.cache_data[key]
-
-        else:
-            # If the number of items exceeds MAX_ITEMS,
-            if len(self.cache_data) >= self.MAX_ITEMS:
-                # Pop the first item (least recently used)
-                first_key, first_item = self.cache_data.popitem(last=False)
-                print(f"DISCARD: {first_key}")
-
-        # Store the item in the cache
+            
+        # Add the new key-item pair to the cache
         self.cache_data[key] = item
+
+        # If the number of items exceeds MAX_ITEMS,
+        if len(self.cache_data) > self.MAX_ITEMS:
+            # Pop the first item (least recently used)
+            first_key, first_item = self.cache_data.popitem(last=False)
+            print(f"DISCARD: {first_key}")
 
     def get(self, key):
         """Retrieve item from cache by key."""
