@@ -24,7 +24,7 @@ class LRUCache(BaseCaching):
 
         else:
             # If the number of items exceeds MAX_ITEMS,
-            if len(self.cache_data) >= self.MAX_ITEMS:
+            if len(self.cache_data) > self.MAX_ITEMS:
                 # Pop the first item (FIFO behavior)
                 first_key, first_item = self.cache_data.popitem(last=False)
                 print(f"DISCARD: {first_key}")
