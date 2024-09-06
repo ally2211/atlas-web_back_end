@@ -32,8 +32,10 @@ class LRUCache(BaseCaching):
 
     def get(self, key):
         """Retrieve item from cache by key."""
-        if key is None:
+        if key is None or key not in self.cache_data:
             return None
 
-        # Return the item if it exists in the cache
-        return self.cache_data.get(key, None)
+        # Move the accessed item to the end to mark it as recently used
+        item = self.cache_data.pop(key) # remove the entry yet retrieve the item value
+        self.cache_data[key] = item
+        return item
