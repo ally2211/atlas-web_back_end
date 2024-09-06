@@ -22,14 +22,15 @@ class LIFOCache(BaseCaching):
             # If the key already exists, remove it
             del self.cache_data[key]
 
+        else:
+            # If the number of items exceeds MAX_ITEMS,
+            if len(self.cache_data) >= self.MAX_ITEMS:
+                # Pop the first item (FIFO behavior)
+                last_key, last_item = self.cache_data.popitem(last=True)
+                print(f"DISCARD: {last_key}")
+
         # Store the item in the cache
         self.cache_data[key] = item
-
-        # If the number of items exceeds MAX_ITEMS,
-        if len(self.cache_data) > self.MAX_ITEMS:
-            # Pop the first item (FIFO behavior)
-            last_key, last_item = self.cache_data.popitem(last=True)
-            print(f"DISCARD: {last_key}")  # For testing or logging purposes
 
     def get(self, key):
         """Retrieve item from cache by key."""
