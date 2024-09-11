@@ -16,6 +16,11 @@ def filter_datum(fields: List[str], redaction: str, message: str,
         # regex pattern to match until the next separator
         pattern = rf'{field}=[^;]+'
         # Use re.sub()  with the redaction string
+
         message = re.sub(pattern, f'{field}={redaction}', message)
+
+    # Remove any trailing separator (e.g., ";" at the end of the string) if it exists
+    if message.endswith(separator):
+        message = message[:-len(separator)]
 
     return message
