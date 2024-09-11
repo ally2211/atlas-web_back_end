@@ -19,7 +19,7 @@ def filter_datum(fields: List[str], redaction: str, message: str,
 
         message = re.sub(pattern, f'{field}={redaction}', message)
 
-    # Remove any trailing separator (e.g., ";" at the end of the string) if it exists
+    # Remove any trailing separator 
     if message.endswith(separator):
         message = message[:-len(separator)]
 
