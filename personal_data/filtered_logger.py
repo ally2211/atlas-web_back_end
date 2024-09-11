@@ -2,30 +2,19 @@
 """
 Regex
 """
+import re
 
 
 def filter_datum(fields: list, redaction: str, message: str,
                  separator: str) -> str:
     '''
     Obfuscates values in the specified fields from the message.
-    '''
-    # split the message
-    key_value_pairs = message.split(separator)
+    '''    # Create a pattern based on the fields to be obfuscated
+    for field in fields:
+        # Construct the regex pattern for the field to match everything after the key until the next separator
+        pattern = rf'{field}=[^;]+'
+        # Use re.sub() to replace the matched field's value with the redaction string
+        message = re.sub(pattern, f'{field}={redaction}', message)
 
-    # init empty list
-    obfuscated_pairs = []
+    return message
 
-    # itirate over each key-value pair
-    for pair in key_value_pairs:
-        # split each pair into key and value
-        if '=' in pair:
-            # '1' ensures we split only at the first '='
-            key, value = pair.split('=', 1)
-
-            if key in fields:
-                obfuscated_pairs.append(f"{key}={redaction}")
-            else:
-                obfuscated_pairs.append(pair)
-
-    # join pairs back to a single string
-    return separator.join(obfuscated_pairs)

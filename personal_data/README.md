@@ -149,3 +149,9 @@ filter_datum should be less than 5 lines long and use re.sub to perform the subs
 name=egg;email=eggmin@eggsample.com;password=xxx;date_of_birth=xxx;
 name=bob;email=bob@dylan.com;password=xxx;date_of_birth=xxx;
 ```
+
+he re.sub() function in Python allows you to search for a pattern using a regular expression and replace it with a specified string. It’s a versatile way to perform substitutions, particularly useful for tasks like obfuscating sensitive data (such as PII) or manipulating strings based on specific patterns.
+
+import re
+
+re.sub(pattern, replacement, string, count=0, flags=0)
