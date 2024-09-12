@@ -15,13 +15,9 @@ def filter_datum(fields: List[str], redaction: str, message: str,
     # Create a pattern based on the fields to be obfuscated
     for field in fields:
         # regex pattern to match until the next separator
-        pattern = rf'{field}=[^;]+'
+        pattern = rf'{field}=[^{separator}]+'
         # Use re.sub()  with the redaction string
 
         message = re.sub(pattern, f'{field}={redaction}', message)
-
-    # Remove any trailing separator
-    if message.endswith(separator):
-        message = message[:-len(separator)]
 
     return message
