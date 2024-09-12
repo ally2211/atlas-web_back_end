@@ -48,7 +48,7 @@ class RedactingFormatter(logging.Formatter):
         # Create a pattern based on the fields to be obfuscated
         for field in self.fields:
             # regex pattern to match until the next separator
-            pattern = rf'{field}=[^;]+'
+            pattern = rf'{field}=[^{RedactingFormatter.SEPARATOR}]+'
             # Use re.sub()  with the redaction string
             message = re.sub(
                 pattern,
