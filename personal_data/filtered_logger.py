@@ -9,6 +9,7 @@ import logging
 # Define the PII_FIELDS constant at the root of the module
 PII_FIELDS: Tuple[str, ...] = ('name', 'email', 'phone', 'ssn', 'password')
 
+
 class RedactingFormatter(logging.Formatter):
     """
     Redacting Formatter class
@@ -60,30 +61,31 @@ class RedactingFormatter(logging.Formatter):
             message = message[:-len(RedactingFormatter.SEPARATOR)]
         return message
 
+
 def get_logger() -> logging.Logger:
     """
     Create and return a logger named 'user_data' that logs up to INFO level.
     It uses RedactingFormatter to redact PII fields in the logs.
-    
+
     :return: The configured logger object.
     """
     # Create a logger named 'user_data'
     logger = logging.getLogger('user_data')
-    
+
     # Set the log level to INFO
     logger.setLevel(logging.INFO)
-    
+
     # Ensure the logger does not propagate messages to other loggers
     logger.propagate = False
-    
+
     # Create a StreamHandler
     stream_handler = logging.StreamHandler()
-    
+
     # Set the formatter to RedactingFormatter using the PII_FIELDS
     formatter = RedactingFormatter(fields=list(PII_FIELDS))
     stream_handler.setFormatter(formatter)
-    
+
     # Add the handler to the logger
     logger.addHandler(stream_handler)
-    
+
     return logger
