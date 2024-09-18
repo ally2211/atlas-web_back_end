@@ -7,7 +7,6 @@ import mysql.connector
 from mysql.connector import MySQLConnection, Error
 
 
-
 def get_db() -> mysql.connector.connection.MySQLConnection:
     '''
     establish mysql connection using environment variables
@@ -21,7 +20,7 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
     try:
         # Establish connection
         connection: MySQLConnection = mysql.connector.connect(
-            host=db_host, # 'host.docker.internal'
+            host=db_host,
             user=db_user,
             password=db_password,
             database=db_name
