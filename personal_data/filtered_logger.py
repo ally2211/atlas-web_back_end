@@ -3,13 +3,14 @@
 connection to sql database
 """
 import mysql.connector
-from mysql.connector import Error
+from mysql.connector import MySQLConnection, Error
+from typing import Optional
 
 
-def get_db():
+def get_db() -> Optional[MySQLConnection]:
     try:
         # Establish connection
-        connection = mysql.connector.connect(
+        connection: MySQLConnection = mysql.connector.connect(
             host='host.docker.internal',  # MySQL is running on Docker, accessible via localhost
             user='root',       # Replace with your MySQL username
             password='',       # Replace with your MySQL password, empty string in your case
