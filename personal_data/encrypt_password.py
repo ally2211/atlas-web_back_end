@@ -5,6 +5,16 @@ encrypt a password
 import bcrypt
 
 
+def is_valid(hashed_password: bytes, password: str) -> bool:
+    '''
+    check is a valid password
+    '''
+    # Convert the provided password to bytes
+    password_bytes = password.encode('utf-8')
+    # Use bcrypt's checkpw method to validate the password
+    return bcrypt.checkpw(password_bytes, hashed_password)
+
+
 def hash_password(password: str) -> bytes:
     '''
     get a password as a string and return a salted hashed password

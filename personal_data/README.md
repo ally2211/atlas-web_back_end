@@ -225,3 +225,14 @@ print(hashed_password)
 ### Key Points:
 - **Salted Hash**: The function `bcrypt.hashpw` returns a salted, hashed password. The salt is embedded into the final hashed output to be used later for password verification.
 - **Byte string**: The hashed password is returned as a byte string because encryption and hashing functions deal with binary data at a low level, ensuring precision and avoiding encoding issues. You can decode it to a human-readable format if needed but should store it as is.
+
+## Task 6:   to validate that the provided password matches the hashed password.
+import bcrypt
+
+def is_valid(provided_password: str, hashed_password: bytes) -> bool:
+    # Convert the provided password to bytes
+    provided_password_bytes = provided_password.encode('utf-8')
+    
+    # Use bcrypt's checkpw method to validate the password
+    return bcrypt.checkpw(provided_password_bytes, hashed_password)
+
