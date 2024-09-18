@@ -7,7 +7,7 @@ from mysql.connector import MySQLConnection, Error
 from typing import Optional
 
 
-def get_db() -> mysql.connector.connection.MySQLConnection:
+def get_db() -> Optional[MySQLConnection]:
     try:
         # Establish connection
         connection: MySQLConnection = mysql.connector.connect(
