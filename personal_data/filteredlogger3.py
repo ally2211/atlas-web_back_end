@@ -2,19 +2,28 @@
 """
 connection to sql database
 """
+import os
 import mysql.connector
 from mysql.connector import MySQLConnection, Error
-from typing import Optional
 
 
-def get_db() -> Optional[MySQLConnection]:
+def get_db() -> mysql.connector.connection.MySQLConnection:
+    '''
+    establish mysql connection using environment variables
+    '''
+    # Fetching environment variables with defaults if not set
+    db_user: str = os.getenv('PERSONAL_DATA_DB_USERNAME', 'root')
+    db_password: str = os.getenv('PERSONAL_DATA_DB_PASSWORD', '')
+    db_host: str = os.getenv('PERSONAL_DATA_DB_HOST', 'host.docker.internal')
+    db_name: str = os.getenv('PERSONAL_DATA_DB_NAME', 'my_db')
+
     try:
         # Establish connection
         connection: MySQLConnection = mysql.connector.connect(
-            host='host.docker.internal',  # MySQL is running on Docker, accessible via localhost
-            user='root',       # Replace with your MySQL username
-            password='',       # Replace with your MySQL password, empty string in your case
-            database='my_db'   # Replace with the actual database name
+            host=db_host,
+            user=db_user,
+            password=db_password,
+            database=db_name
         )
         if connection.is_connected():
             # print("Connected to MySQL database")
