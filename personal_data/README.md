@@ -182,3 +182,46 @@ Implement a get_db function that returns a connector to the database (mysql.conn
 
 Use the os module to obtain credentials from the environment
 Use the module mysql-connector-python to connect to the MySQL database (pip3 install mysql-connector-python)
+
+## Task 4 Read an Filter Data
+use all the code from before to now log and format rows from the users table
+
+## Task 5 Encrypting passwords
+The `bcrypt` package is a popular Python library used for securely hashing and verifying passwords. Hashing a password means converting it into a fixed-length, irreversible string that is unique to the original input, making it safer to store passwords in databases.
+
+### How bcrypt works:
+- **Salting**: A "salt" is a random value added to the password before hashing. This ensures that even if two users have the same password, their hashes will be different because the salt is unique for each user. 
+- **Hashing**: Hashing refers to applying a one-way function to the password (and salt) to generate a hash. This hash is stored instead of the plain password. When a user logs in, their input password is hashed in the same way and compared to the stored hash.
+  
+Using `bcrypt`, the hashed passwords are salted automatically and securely.
+
+### Explanation of `hashpw` and byte string output:
+
+- **`bcrypt.hashpw`**: This function takes two arguments: the plaintext password (which must be a byte string) and a salt. It returns a salted, hashed password. The resulting hash is also a byte string, which is crucial because passwords are sensitive to exact binary representations.
+  
+  The returned byte string consists of:
+  - The salt.
+  - The hashed password generated from the combination of the salt and the input password.
+  
+  This byte string can later be stored in a database, and when verifying the password, you can compare this hash with the newly hashed version of the user's input.
+
+### Example of usage:
+
+```python
+import bcrypt
+
+# Plaintext password (must be bytes)
+password = b"mysecretpassword"
+
+# Generate a salt
+salt = bcrypt.gensalt()
+
+# Hash the password using bcrypt's hashpw method
+hashed_password = bcrypt.hashpw(password, salt)
+
+print(hashed_password)
+```
+
+### Key Points:
+- **Salted Hash**: The function `bcrypt.hashpw` returns a salted, hashed password. The salt is embedded into the final hashed output to be used later for password verification.
+- **Byte string**: The hashed password is returned as a byte string because encryption and hashing functions deal with binary data at a low level, ensuring precision and avoiding encoding issues. You can decode it to a human-readable format if needed but should store it as is.
