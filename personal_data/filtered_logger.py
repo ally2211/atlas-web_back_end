@@ -8,6 +8,8 @@ from mysql.connector import MySQLConnection, Error
 import re
 from typing import List, Tuple
 import logging
+# from main import main
+
 
 # Define the PII_FIELDS constant at the root of the module
 PII_FIELDS: Tuple[str, ...] = ('name', 'email', 'phone', 'ssn', 'password')
