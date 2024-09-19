@@ -32,4 +32,4 @@ def unauthorized_route():
     '''
     You can trigger the 401 error
     '''
-    abort(401)
+    abort(401, description = 'Unauthorized')
