@@ -33,8 +33,8 @@ def unauthorized_route():
     You can trigger the 401 error
     '''
     return abort(401)
-  
-  
+
+
 # Example route that returns 403
 @app_views.route('/forbidden/', methods=['GET'], strict_slashes=False)
 def forbidden_route():
