@@ -27,7 +27,7 @@ def stats() -> str:
 
 
 # Example route that returns 401
-@app_views.route('/unauthorized', methods=['GET'])
+@app_views.route('/api/v1/unauthorized', methods=['GET'])
 def unauthorized_route():
     '''
     You can trigger the 401 error

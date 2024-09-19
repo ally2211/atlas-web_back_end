@@ -30,7 +30,7 @@ def unauthorized_error(error):
         'error': '401',
         'message': 'Unauthorized'
     }
-    return jsonify(response), 401
+    return jsonify(response)
 
 
 if __name__ == "__main__":
