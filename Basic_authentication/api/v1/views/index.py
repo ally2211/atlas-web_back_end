@@ -29,5 +29,7 @@ def stats() -> str:
   # Example route that returns 401
 @app_views.route('/unauthorized', methods=['GET'])
 def unauthorized_route():
-    # You can trigger the 401 error
+    '''
+    You can trigger the 401 error
+    '''
     abort(401) 
