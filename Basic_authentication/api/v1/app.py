@@ -20,6 +20,15 @@ def not_found(error) -> str:
     """
     return jsonify({"error": "Not found"}), 404
 
+# Custom error handler for 401 Unauthorized
+@app.errorhandler(401)
+def unauthorized_error(error):
+    response = {
+        'error': 'Unauthorized',
+        'message': 'You do not have the necessary credentials to access this resource.'
+    }
+    return jsonify(response), 401
+
 
 if __name__ == "__main__":
     host = getenv("API_HOST", "0.0.0.0")
