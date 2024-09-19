@@ -12,6 +12,7 @@ import logging
 # Define the PII_FIELDS constant at the root of the module
 PII_FIELDS: Tuple[str, ...] = ('name', 'email', 'phone', 'ssn', 'password')
 
+
 class RedactingFormatter(logging.Formatter):
     """
     Redacting Formatter class
@@ -21,7 +22,6 @@ class RedactingFormatter(logging.Formatter):
     FORMAT = "[HOLBERTON] %(name)s %(levelname)s %(asctime)s: %(message)s"
     SEPARATOR = ";"
 
-
     def __init__(self,  fields: List[str]):
         """
         Initialize the RedactingFormatter
@@ -30,7 +30,6 @@ class RedactingFormatter(logging.Formatter):
         # Initialize the parent class with the specific format
         super(RedactingFormatter, self).__init__(self.FORMAT)
         self.fields = fields
-
 
     def format(self, record: logging.LogRecord) -> str:
         """
@@ -45,7 +44,6 @@ class RedactingFormatter(logging.Formatter):
         redacted_message = self.filter_datum(original_message)
         return redacted_message
 
-
     def filter_datum(self, message: str) -> str:
         '''
         Obfuscates values in the specified fields from the message.
@@ -56,7 +54,7 @@ class RedactingFormatter(logging.Formatter):
         for field in self.fields:
             # regex pattern to match until the next separator
             pattern = rf'{field}=[^{RedactingFormatter.SEPARATOR}]+'
-            
+
             # Use re.sub()  with the redaction string
             message = re.sub(
                 pattern,
