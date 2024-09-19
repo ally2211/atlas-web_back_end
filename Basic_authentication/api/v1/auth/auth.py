@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-""" Authentication
+""" 
+Authentication of users
 """
 from flask import Request
 from typing import List, TypeVar
