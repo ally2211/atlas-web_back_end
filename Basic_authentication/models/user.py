@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-""" User module
+""" User module that defines User class methods
 """
 import hashlib
 from models.base import Base
 
 
 class User(Base):
-    """ User class
+    """ User class inherits Base
     """
 
     def __init__(self, *args: list, **kwargs: dict):
@@ -34,7 +34,7 @@ class User(Base):
             self._password = hashlib.sha256(pwd.encode()).hexdigest().lower()
 
     def is_valid_password(self, pwd: str) -> bool:
-        """ Validate a password
+        """ Validate a password if true
         """
         if pwd is None or type(pwd) is not str:
             return False
