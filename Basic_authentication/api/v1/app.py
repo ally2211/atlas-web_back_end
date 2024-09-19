@@ -27,7 +27,7 @@ def unauthorized_error(error):
     Custom error handler for 401 Unauthorized
     '''
     response = {
-        'error': 'error',
+        'error': '401',
         'message': 'Unauthorized'
     }
     return jsonify(response), 401
