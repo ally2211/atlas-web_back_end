@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """ 
-Authentication of users
+Authentication methods for users
 """
 from flask import Request
 from typing import List, TypeVar
@@ -13,12 +13,13 @@ User = TypeVar('User')
 
 class Auth:
     '''
-    class Auth authenticates users
+    Method that returns the current user based on the request object
     '''
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
         """
-        Return False if path is None
-        or in excluded_paths, otherwise True.
+        Checks if the requested path requires authentication.
+        Returns False if the path is None or in excluded_paths.
+        Returns True otherwise.
         """
         if path is None or excluded_paths is None:
             return True  # return True (require auth)
@@ -36,9 +37,8 @@ class Auth:
 
     def authorization_header(self, request=None) -> str:
         """
-        Return the Authorization header
-        from the Flask request object,
-        or None if missing.
+        Retrieves the Authorization header from the Flask request object.
+        Returns None if the header is not present.
         """
         if request is None or 'Authorization' not in request.headers:
             return None
@@ -46,7 +46,9 @@ class Auth:
         return request.headers.get('Authorization')
 
     def current_user(self, request=None) -> User:
-        """Return None by default, indicating no user
-        is identified.
+        """
+        Return None by default, indicating no user is identified.
+        This method would typically extract user information from the request
+        and return a User instance.
         """
         return None
