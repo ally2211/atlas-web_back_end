@@ -35,7 +35,7 @@ def unauthorized_route():
     return abort(401)
   
   
-  # Example route that returns 403
+# Example route that returns 403
 @app_views.route('/forbidden/', methods=['GET'], strict_slashes=False)
 def unauthorized_route():
     '''
