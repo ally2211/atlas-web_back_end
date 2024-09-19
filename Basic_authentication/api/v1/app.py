@@ -20,12 +20,15 @@ def not_found(error) -> str:
     """
     return jsonify({"error": "Not found"}), 404
 
-# Custom error handler for 401 Unauthorized
+
 @app.errorhandler(401)
 def unauthorized_error(error):
+    '''
+    Custom error handler for 401 Unauthorized
+    '''
     response = {
         'error': 'Unauthorized',
-        'message': 'You do not have the necessary credentials to access this resource.'
+        'message': 'You do not have the necessary credentials.'
     }
     return jsonify(response), 401
 

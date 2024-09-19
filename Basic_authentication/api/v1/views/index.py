@@ -25,11 +25,11 @@ def stats() -> str:
     stats['users'] = User.count()
     return jsonify(stats)
 
-  
-  # Example route that returns 401
+
+# Example route that returns 401
 @app_views.route('/unauthorized', methods=['GET'])
 def unauthorized_route():
     '''
     You can trigger the 401 error
     '''
-    abort(401) 
+    abort(401)
