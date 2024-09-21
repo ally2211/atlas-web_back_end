@@ -6,6 +6,7 @@ from flask import Request
 from typing import List, TypeVar
 # from api.v1.auth.auth import Auth
 from models.user import User
+import sys
 
 # Define a generic type for User
 User = TypeVar('User')
@@ -22,6 +23,8 @@ class Auth:
         Returns False if the path is None or in excluded_paths.
         Returns True otherwise.
         """
+        print(f"Checking if authentication is required for path: {path}")
+        sys.stdout.flush()
         if path is None or excluded_paths is None:
             return True  # return True (require auth)
 
@@ -33,7 +36,7 @@ class Auth:
         # Return False if the path is in the excluded_paths
         if normalized_path in normalized_excluded_paths:
             return False
-
+        print(f"hello")
         return True  # Otherwise, return True (require auth)
 
     def authorization_header(self, request=None) -> str:
@@ -41,6 +44,7 @@ class Auth:
         Retrieves the Authorization header from the Flask request object.
         Returns None if the header is not present.
         """
+        print("Checking Authorization header...") 
         if request is None or 'Authorization' not in request.headers:
             return None
 
@@ -52,4 +56,5 @@ class Auth:
         This method would typically extract user information from the request
         and return a User instance.
         """
+        print("Checking current user...")
         return None
