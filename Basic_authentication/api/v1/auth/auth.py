@@ -24,7 +24,7 @@ class Auth:
         Returns True otherwise.
         """
         print(f"Checking if authentication is required for path: {path}")
-        sys.stdout.flush()
+        
         if path is None or excluded_paths is None:
             return True  # return True (require auth)
 
