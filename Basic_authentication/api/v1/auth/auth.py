@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-""" 
+"""
 Authentication methods for users
 """
 from flask import Request
@@ -24,7 +24,7 @@ class Auth:
         Returns True otherwise.
         """
         print(f"Checking if authentication is required for path: {path}")
-        
+
         if path is None or excluded_paths is None:
             return True  # return True (require auth)
 
@@ -44,7 +44,7 @@ class Auth:
         Retrieves the Authorization header from the Flask request object.
         Returns None if the header is not present.
         """
-        print("Checking Authorization header...") 
+        print("Checking Authorization header...")
         if request is None or 'Authorization' not in request.headers:
             return None
 

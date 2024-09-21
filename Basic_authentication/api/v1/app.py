@@ -8,7 +8,7 @@ from flask import Flask, jsonify, abort, request
 from flask_cors import (CORS, cross_origin)
 from typing import Tuple
 # Import the base Auth class
-from api.v1.auth.auth import Auth  
+from api.v1.auth.auth import Auth
 # Import the BasicAuth class
 from api.v1.auth.basic_auth import BasicAuth  # Import the BasicAuth class
 
@@ -30,29 +30,32 @@ else:
     auth = Auth()  # Default to using the Auth class
     print("Using Auth for authentication")
 
+
 @app.before_request
 def before_request_handler():
     """
-    This method is called before every request. It can be used to check
-    if the request should be processed, for example, by verifying authorization.
+    This method is called before every request.
+    It can be used to check
     """
 
     print("Running before_request handler")
     # List of paths where no authorization is required
-    excluded_paths = ['/api/v1/status/', '/api/v1/unauthorized/', '/api/v1/forbidden/']
+    excluded_paths = ['/api/v1/status/',
+                      '/api/v1/unauthorized/', '/api/v1/forbidden/']
 
     # Normalize the request path to avoid trailing slash issues
     request_path = request.path.rstrip('/')
-    
+
     if request.path in excluded_paths:
         # Do nothing, simply proceed with the request
         return None
 
     # Check if the path requires authentication
-    if not auth.require_auth(request_path, [path.rstrip('/') for path in excluded_paths]):
+    if not auth.require_auth(request_path,
+                             [path.rstrip('/') for path in excluded_paths]):
         # Path is excluded, no authentication required
         return None
-    
+
     # Check for Authorization header
     auth_header = auth.authorization_header(request)
     if auth_header is None:
@@ -62,9 +65,8 @@ def before_request_handler():
 
     # Custom logic to check for specific Authorization header
     if auth_header is not None:
-        # If the Authorization header is "Test", trigger 403 Forbidden
         print("Invalid authorization header, aborting with 403")
-        abort(403)  # Return 403 Forbidden for this specific Authorization header
+        abort(403)
 
     # Check for authenticated user
     user = auth.current_user(request)
@@ -73,16 +75,17 @@ def before_request_handler():
         print("No user authenticated, aborting with 401")
         abort(401)
 
-
     if user is None:
         # Return 401 if user is not authenticated
         print("No user authenticated, aborting with 401")
         return abort(401)
 
+
 # Example route for users
 @app.route('/api/v1/users', methods=['GET'])
 def get_users():
     return jsonify([])  # Empty list to simulate users
+
 
 @app.errorhandler(404)
 def not_found(error) -> str:
