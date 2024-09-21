@@ -15,7 +15,6 @@ class Auth:
     '''
     Method that returns the current user based on the request object
     '''
-
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
         """
         Checks if the requested path requires authentication.
