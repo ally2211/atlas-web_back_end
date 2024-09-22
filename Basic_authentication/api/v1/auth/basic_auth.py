@@ -119,11 +119,8 @@ class BasicAuth(Auth):
         """
         # fetching the user from in-memory store
         # Assuming users is a dictionary {email: User}
-        users = {
-            "user@example.com": User("user@example.com", "password123")
-        }
-
-        return users.get(email, None)
+        user = User()
+        return user.get(email)
 
     def check_password(self, user: User, password: str) -> bool:
         """
