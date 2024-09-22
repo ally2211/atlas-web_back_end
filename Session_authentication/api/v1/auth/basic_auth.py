@@ -113,7 +113,7 @@ class BasicAuth(Auth):
             print(f"User not found with email: {user_email}")  # Debugging
             return None
 
-        print(f"User found: {user_email} {user_pwd} verifying password...")  # Debugging
+        print(f"User found: {user_email} {user_pwd} verifying password...")
         # Check provided password matches stored password
         if not user.is_valid_password(user_pwd):
             print(f"Invalid password for user: {user_email}")  # Debugging
@@ -122,6 +122,7 @@ class BasicAuth(Auth):
         # Return the User object if the credentials are valid
         print(f"User authenticated: {user_email}")  # Debugging
         return user
+
     def find_user_by_email(self, email: str) -> 'User':
         """
         Search for a user by email by reading from the .db_User.json file.
@@ -135,7 +136,7 @@ class BasicAuth(Auth):
             for user_id, user_info in user_data.items():
                 if user_info['email'] == email:
                     print(f"User found: {user_info['email']}")
-                    # Return a User object initialized with the data from the file
+                    # User object initialized with the data from the file
                     return User(
                         id=user_info['id'],
                         email=user_info['email'],
@@ -155,27 +156,32 @@ class BasicAuth(Auth):
         """
         Return the current authenticated user.
         """
+        print("Checking Authorization header...")  # Debugging
         # Get the Authorization header from the request
         auth_header = self.authorization_header(request)
         if auth_header is None:
+            print("No Authorization header found")  # Debugging
             return None
 
         # Extract the Base64 part of the Authorization header
         base64_credentials = self.extract_base64_authorization_header(
             auth_header)
         if base64_credentials is None:
+            print("Base64 credentials not found or invalid")  # Debugging
             return None
 
         # Decode the Base64 credentials
         decoded_credentials = self.decode_base64_authorization_header(
             base64_credentials)
         if decoded_credentials is None:
+            print("Failed to decode Base64 credentials")  # Debugging
             return None
 
         # Extract the user email and password
         user_email, user_pwd = self.extract_user_credentials(
             decoded_credentials)
         if user_email is None or user_pwd is None:
+            print("Failed to extract email and password from credentials")  # Debugging
             return None
 
         # Retrieve the user object using the email and password

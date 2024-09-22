@@ -1,10 +1,34 @@
 #!/usr/bin/env python3
 """ Module of Users views
 """
+from api.v1 import app
+from api.v1.auth.basic_auth import BasicAuth
 from api.v1.views import app_views
 from flask import abort, jsonify, request
 from models.user import User
 
+
+@app_views.route('/users/me', methods=['GET'])
+def get_current_user():
+    """
+    Retrieve the authenticated user object.
+    """
+    print("Starting /users/me route")  # Debugging
+    # Get the authenticated user
+    # Initialize the BasicAuth instance
+    auth = BasicAuth()
+    user = auth.current_user(request)
+    if user is None:
+        print("No authenticated user found")  # Debugging
+        abort(401)
+        
+    print(f"Authenticated user: {user.email}, ID: {user.id}")
+    # Return user information
+    return jsonify({
+        'email': user.email,
+        'password': user.password,
+        'id': user.id
+    })
 
 @app_views.route('/users', methods=['GET'], strict_slashes=False)
 def view_all_users() -> str:
