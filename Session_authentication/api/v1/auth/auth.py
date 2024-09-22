@@ -36,7 +36,7 @@ class Auth:
         # Return False if the path is in the excluded_paths
         if normalized_path in normalized_excluded_paths:
             return False
-        print(f"hello")
+       
         return True  # Otherwise, return True (require auth)
 
     def authorization_header(self, request=None) -> str:
@@ -48,7 +48,13 @@ class Auth:
         if request is None or 'Authorization' not in request.headers:
             return None
 
-        return request.headers.get('Authorization')
+        auth_header = request.headers.get('Authorization')
+        print(f"Authorization Header found: {auth_header}")  # Debugging
+        
+        if auth_header is None or not auth_header.startswith('Basic '):
+            return None
+
+        return auth_header
 
     def current_user(self, request=None) -> User:
         """
@@ -57,4 +63,29 @@ class Auth:
         and return a User instance.
         """
         print("Checking current user...")
-        return None
+        auth_header = self.authorization_header(request)
+        print(f"Authorization Header: {auth_header}")  # Debugging
+        if auth_header is None:
+            return None
+
+        # Extract Base64 part from the Authorization header
+        base64_credentials = self.extract_base64_authorization_header(auth_header)
+        print(f"Decoded Credentials: {decoded_credentials}")  # Debugging
+        if base64_credentials is None:
+            return None
+
+        # Decode Base64 to get "email:password"
+        decoded_credentials = self.decode_base64_authorization_header(base64_credentials)
+        if decoded_credentials is None:
+            return None
+
+        # Extract email and password from the decoded string
+        user_email, user_pwd = self.extract_user_credentials(decoded_credentials)
+        print(f"User Email: {user_email}, Password: {user_pwd}")
+        if user_email is None or user_pwd is None:
+            return None
+
+        # Find the user by email and verify password
+        user = self.user_object_from_credentials(user_email, user_pwd)
+        print(f"User: {user}")  # Debugging
+        return user

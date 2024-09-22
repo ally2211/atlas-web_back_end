@@ -43,6 +43,9 @@ def before_request_handler():
     excluded_paths = ['/api/v1/status/',
                       '/api/v1/unauthorized/', '/api/v1/forbidden/']
 
+    # Assign the result of current_user to request.current_user
+    request.current_user = auth.current_user(request)
+    
     # Normalize the request path to avoid trailing slash issues
     request_path = request.path.rstrip('/')
 
@@ -63,11 +66,6 @@ def before_request_handler():
         print("No authorization header, aborting with 401")
         abort(401)
 
-    # Custom logic to check for specific Authorization header
-    if auth_header is not None:
-        print("Invalid authorization header, aborting with 403")
-        abort(403)
-
     # Check for authenticated user
     user = auth.current_user(request)
     if user is None:
@@ -81,10 +79,22 @@ def before_request_handler():
         return abort(401)
 
 
-# Example route for users
-@app.route('/api/v1/users', methods=['GET'])
-def get_users():
-    return jsonify([])  # Empty list to simulate users
+@app.route('/users/me', methods=['GET'])
+def get_me():
+    """
+    Retrieve the authenticated user object.
+    """
+    # Get the authenticated user
+    user = auth.current_user(request)
+    if user is None:
+        # no user is authenticated
+        abort(401)
+    # Return user information
+    return jsonify({
+        'email': user.email,
+        'password': user.password,
+        'id': user.id
+    })
 
 
 @app.errorhandler(404)

@@ -41,6 +41,7 @@ class BasicAuth(Auth):
         if not base64_credentials:
             return None
 
+        print(f"Base64 Credentials: {base64_credentials}")  # Debugging
         return base64_credentials
 
     def decode_base64_authorization_header(self,
@@ -58,6 +59,7 @@ class BasicAuth(Auth):
             decoded_bytes = base64.b64decode(base64_authorization_header)
             # Convert bytes to string
             decoded_str = decoded_bytes.decode('utf-8')
+            print(f"Decoded Credentials: {decoded_str}")  # Debugging
         except (base64.binascii.Error, UnicodeDecodeError):
             # Return None if decoding fails
             return None
@@ -66,7 +68,7 @@ class BasicAuth(Auth):
 
     def extract_user_credentials(self,
                                  decoded_base64_authorization_header:
-                                     str) -> TypeVar('User'):
+                                     str) -> 'User':
         """
         Extract the username and password
         from the decoded Base64 string.
@@ -90,12 +92,15 @@ class BasicAuth(Auth):
 
     def user_object_from_credentials(self,
                                      user_email: str,
-                                     user_pwd: str) -> TypeVar('User'):
+                                     user_pwd: str) -> 'User':
         """
         Validate the user credentials
         """
         if not isinstance(user_email, str) or not isinstance(user_pwd, str):
+            print(f"Invalid email or password format")  # Debugging
             return None
+
+        print(f"Looking for user with email: {user_email}")  # Debugging
 
         if not user_email or not user_pwd:
             return None
@@ -104,32 +109,44 @@ class BasicAuth(Auth):
         user = self.find_user_by_email(user_email)
 
         if user is None:
+            print(f"User not found with email: {user_email}")  # Debugging
             return None
 
+        print(f"User found: {user_email} {user_pwd} verifying password...")  # Debugging
         # Check provided password matches stored password
-        if not user.is_valid_password(user_pwd):
-            return None
+        #if not user.is_valid_password(user_pwd):
+            #print(f"Invalid password for user: {user_email}")  # Debugging
+            #return None
 
         # Return the User object if the credentials are valid
+        print(f"User authenticated: {user_email}")  # Debugging
         return user
 
-    def find_user_by_email(self, email: str) -> User:
+    def find_user_by_email(cls, email: str) -> 'User':
         """
         find user email
         """
         # fetching the user from in-memory store
         # Assuming users is a dictionary {email: User}
+        print(f"Searching for user with email: {email}")
         user = User()
-        return user.get(email)
+        if user:
+            print(f"User found: {email}")
+        else:
+            print(f"No user found with email: {email}")
+        return user
 
-    def check_password(self, user: User, password: str) -> bool:
+    def is_valid_password(self, password: str) -> bool:
         """
-        Simulate password checking.
+        Check if the provided password is valid. In real applications, compare the hashed password.
         """
-        # password is stored in plain text
-        return user.password == password
+        print(f"Checking if provided password matches for user: {self.email}")
+        print(f"Stored password: {self.password}, Provided password: {password}")  # Debugging
 
-    def current_user(self, request=None) -> TypeVar('User'):
+        # In real apps, compare hashed passwords
+        return self.password == password
+
+    def current_user(self, request=None) -> User:
         """
         Return the current authenticated user.
         """

@@ -102,6 +102,20 @@ def update_user(user_id: str = None) -> str:
       - 404 if the User ID doesn't exist
       - 400 if can't update the User
     """
+    # If user_id is 'me'
+    # and there's no authenticated user, return 404
+    if user_id == 'me':
+        if request.current_user is None:
+            abort(404)
+        else:
+            # Return the authenticated user's
+            # information
+            return jsonify({
+                'id': request.current_user.id,
+                'email': request.current_user.email,
+                'password': request.current_user_password
+            })
+            
     if user_id is None:
         abort(404)
     user = User.get(user_id)

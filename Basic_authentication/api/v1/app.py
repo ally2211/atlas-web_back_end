@@ -63,11 +63,6 @@ def before_request_handler():
         print("No authorization header, aborting with 401")
         abort(401)
 
-    # Custom logic to check for specific Authorization header
-    if auth_header is not None:
-        print("Invalid authorization header, aborting with 403")
-        abort(403)
-
     # Check for authenticated user
     user = auth.current_user(request)
     if user is None:
