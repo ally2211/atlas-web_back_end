@@ -128,3 +128,34 @@ class BasicAuth(Auth):
         """
         # password is stored in plain text
         return user.password == password
+
+    def current_user(self, request=None) -> TypeVar('User'):
+        """
+        Return the current authenticated user.
+        """
+        # Get the Authorization header from the request
+        auth_header = self.authorization_header(request)
+        if auth_header is None:
+            return None
+
+        # Extract the Base64 part of the Authorization header
+        base64_credentials = self.extract_base64_authorization_header(
+            auth_header)
+        if base64_credentials is None:
+            return None
+
+        # Decode the Base64 credentials
+        decoded_credentials = self.decode_base64_authorization_header(
+            base64_credentials)
+        if decoded_credentials is None:
+            return None
+
+        # Extract the user email and password
+        user_email, user_pwd = self.extract_user_credentials(
+            decoded_credentials)
+        if user_email is None or user_pwd is None:
+            return None
+
+        # Retrieve the user object using the email and password
+        user = self.user_object_from_credentials(user_email, user_pwd)
+        return user
