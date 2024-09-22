@@ -61,22 +61,24 @@ def before_request_handler():
 
     # Check for Authorization header
     auth_header = auth.authorization_header(request)
+    print(f"Authorization Header found: {auth_header}")  # Debugging
     if auth_header is None:
         # If the Authorization header is missing, trigger 401
         print("No authorization header, aborting with 401")
         abort(401)
 
+    # If the header exists but is invalid (e.g., "Basic test"), return 403
+    base64_credentials = auth.extract_base64_authorization_header(auth_header)
+    if base64_credentials is None:
+        print("Invalid Base64 in authorization header, aborting with 403")
+        abort(403)  # Forbidden access
+       
     # Check for authenticated user
     user = auth.current_user(request)
     if user is None:
         # If no user is authenticated, trigger 401
         print("No user authenticated, aborting with 401")
         abort(401)
-
-    if user is None:
-        # Return 401 if user is not authenticated
-        print("No user authenticated, aborting with 401")
-        return abort(401)
 
 
 @app.route('/users/me', methods=['GET'])

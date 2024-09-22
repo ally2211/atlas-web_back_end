@@ -7,6 +7,7 @@ from typing_extensions import TypeVar
 from api.v1.auth.auth import Auth
 from models.user import User
 from typing import TypeVar
+import json
 
 
 class BasicAuth(Auth):
@@ -114,39 +115,43 @@ class BasicAuth(Auth):
 
         print(f"User found: {user_email} {user_pwd} verifying password...")  # Debugging
         # Check provided password matches stored password
-        #if not user.is_valid_password(user_pwd):
-            #print(f"Invalid password for user: {user_email}")  # Debugging
-            #return None
+        if not user.is_valid_password(user_pwd):
+            print(f"Invalid password for user: {user_email}")  # Debugging
+            return None
 
         # Return the User object if the credentials are valid
         print(f"User authenticated: {user_email}")  # Debugging
         return user
+    def find_user_by_email(self, email: str) -> 'User':
+        """
+        Search for a user by email by reading from the .db_User.json file.
+        """
+        try:
+            # Open the .db_User.json file and load the data
+            with open(".db_User.json", "r") as f:
+                user_data = json.load(f)
 
-    def find_user_by_email(cls, email: str) -> 'User':
-        """
-        find user email
-        """
-        # fetching the user from in-memory store
-        # Assuming users is a dictionary {email: User}
-        print(f"Searching for user with email: {email}")
-        user = User()
-        if user:
-            print(f"User found: {email}")
-        else:
+            # Iterate through users and find the one with the matching email
+            for user_id, user_info in user_data.items():
+                if user_info['email'] == email:
+                    print(f"User found: {user_info['email']}")
+                    # Return a User object initialized with the data from the file
+                    return User(
+                        id=user_info['id'],
+                        email=user_info['email'],
+                        _password=user_info['_password'],
+                        first_name=user_info.get('first_name'),
+                        last_name=user_info.get('last_name'),
+                        created_at=user_info.get('created_at'),
+                        updated_at=user_info.get('updated_at')
+                    )
             print(f"No user found with email: {email}")
-        return user
+            return None
+        except FileNotFoundError:
+            print("User data file not found")
+            return None
 
-    def is_valid_password(self, password: str) -> bool:
-        """
-        Check if the provided password is valid. In real applications, compare the hashed password.
-        """
-        print(f"Checking if provided password matches for user: {self.email}")
-        print(f"Stored password: {self.password}, Provided password: {password}")  # Debugging
-
-        # In real apps, compare hashed passwords
-        return self.password == password
-
-    def current_user(self, request=None) -> User:
+    def current_user(self, request=None) -> 'User':
         """
         Return the current authenticated user.
         """

@@ -63,6 +63,24 @@ def before_request_handler():
         print("No authorization header, aborting with 401")
         abort(401)
 
+    # If the header exists but is invalid (e.g., "Basic test"), return 403
+    base64_credentials = auth.extract_base64_authorization_header(auth_header)
+    if base64_credentials is None:
+        print("Invalid Base64 in authorization header, aborting with 403")
+        abort(403)  # Forbidden access
+
+    # Decode Base64 and extract user credentials
+    decoded_credentials = auth.decode_base64_authorization_header(base64_credentials)
+    if decoded_credentials is None:
+        print("Failed to decode Base64 credentials, aborting with 403")
+        abort(403)  # Forbidden access
+
+    # Extract email and password
+    user_email, user_pwd = auth.extract_user_credentials(decoded_credentials)
+    if user_email is None or user_pwd is None:
+        print("Missing email or password in credentials, aborting with 403")
+        abort(403)  # Forbidden access
+
     # Check for authenticated user
     user = auth.current_user(request)
     if user is None:
