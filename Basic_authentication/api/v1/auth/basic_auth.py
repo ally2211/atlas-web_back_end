@@ -2,6 +2,7 @@
 """
 Basic Authentication methods for users
 """
+import base64
 from api.v1.auth.auth import Auth
 
 
@@ -38,3 +39,22 @@ class BasicAuth(Auth):
             return None
 
         return base64_credentials
+
+    def decode_base64_authorization_header(self, base64_authorization_header: str) -> str:
+        """
+        Decode the Base64-encoded part
+        """
+        # Return None if base64_authorization_header is not a string
+        if not isinstance(base64_authorization_header, str):
+            return None
+
+        try:
+            # Decode the Base64 string
+            decoded_bytes = base64.b64decode(base64_authorization_header)
+            # Convert bytes to string
+            decoded_str = decoded_bytes.decode('utf-8')
+        except (base64.binascii.Error, UnicodeDecodeError):
+            # Return None if decoding fails
+            return None
+
+        return decoded_str
