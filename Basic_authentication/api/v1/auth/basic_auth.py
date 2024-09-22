@@ -3,7 +3,10 @@
 Basic Authentication methods for users
 """
 import base64
+from typing_extensions import TypeVar
 from api.v1.auth.auth import Auth
+from models.user import User
+from typing import TypeVar
 
 
 class BasicAuth(Auth):
@@ -63,7 +66,7 @@ class BasicAuth(Auth):
 
     def extract_user_credentials(self,
                                  decoded_base64_authorization_header:
-                                     str) -> (str, str):
+                                     str) -> TypeVar('User'):
         """
         Extract the username and password
         from the decoded Base64 string.
@@ -84,3 +87,47 @@ class BasicAuth(Auth):
             return None, None
 
         return username, password
+
+    def user_object_from_credentials(self,
+                                     user_email: str,
+                                     user_pwd: str) -> TypeVar('User'):
+        """
+        Validate the user credentials
+        """
+        if not isinstance(user_email, str) or not isinstance(user_pwd, str):
+            return None
+
+        if not user_email or not user_pwd:
+            return None
+
+        # Simulating database check or user store
+        user = self.find_user_by_email(user_email)
+
+        if user is None:
+            return None
+
+        # Check provided password matches stored password
+        if not user.is_valid_password(user_pwd):
+            return None
+
+        # Return the User object if the credentials are valid
+        return user
+
+    def find_user_by_email(self, email: str) -> User:
+        """
+        find user email
+        """
+        # fetching the user from in-memory store
+        # Assuming users is a dictionary {email: User}
+        users = {
+            "user@example.com": User("user@example.com", "password123")
+        }
+
+        return users.get(email, None)
+
+    def check_password(self, user: User, password: str) -> bool:
+        """
+        Simulate password checking.
+        """
+        # password is stored in plain text
+        return user.password == password
