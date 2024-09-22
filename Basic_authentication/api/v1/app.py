@@ -19,6 +19,7 @@ CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 
 # Get the value of AUTH_TYPE environment variable
 auth_type = getenv('AUTH_TYPE')
+auth = BasicAuth()
 
 
 # Initialize the correct Auth class based on the AUTH_TYPE

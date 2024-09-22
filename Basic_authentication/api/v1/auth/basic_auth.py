@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-""" 
+"""
 Basic Authentication methods for users
 """
 from api.v1.auth.auth import Auth
