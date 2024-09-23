@@ -7,6 +7,7 @@ from typing import List, TypeVar
 # from api.v1.auth.auth import Auth
 from models.user import User
 import sys
+from os import getenv
 
 # Define a generic type for User
 User = TypeVar('User')
@@ -92,3 +93,18 @@ class Auth:
         user = self.user_object_from_credentials(user_email, user_pwd)
         print(f"User: {user}")  # Debugging
         return user
+
+    def session_cookie(self, request=None):
+        """
+        Returns the value of the session cookie named by the environment variable SESSION_NAME.
+        Returns None if the request is None or if the cookie is not found.
+        """
+        # Return None if request is None
+        if request is None:
+            return None
+        
+        # Get the cookie name from the environment variable SESSION_NAME
+        session_name = getenv('SESSION_NAME', '_my_session_id')  # Default to '_my_session_id' if not set
+        
+        # Return the value of the session cookie using .get() to safely access it
+        return request.cookies.get(session_name)
