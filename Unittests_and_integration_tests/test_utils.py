@@ -25,8 +25,8 @@ class TestAccessNestedMap(unittest.TestCase):
         self. assertEqual(result, expected)
         
     @parameterized.expand([
-    ({}, ("a",)),                     # Test case 1: empty dictionary
-    ({"a": 1}, ("a", "b")),           # Test case 2: key "a" exists, "b" does not
+        ({}, ("a",)),                     # Test case 1: empty dictionary
+        ({"a": 1}, ("a", "b")),           # Test case 2: key "a" exists, "b" does not
     ])
         
     def test_access_nested_map_key_error(self, nested_map, path):
