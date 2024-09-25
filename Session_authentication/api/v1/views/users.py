@@ -6,6 +6,8 @@ from api.v1.auth.basic_auth import BasicAuth
 from api.v1.views import app_views
 from flask import abort, jsonify, request
 from models.user import User
+from os import getenv
+auth_type = getenv('AUTH_TYPE')
 
 
 @app_views.route('/users/me', methods=['GET'])
@@ -15,20 +17,48 @@ def get_current_user():
     """
     print("Starting /users/me route")  # Debugging
     # Get the authenticated user
-    # Initialize the BasicAuth instance
-    auth = BasicAuth()
-    user = auth.current_user(request)
-    if user is None:
-        print("No authenticated user found")  # Debugging
-        abort(401)
+    if (auth_type == 'session_auth'):
+        # Retrieve the session ID from the session cookie
+        print("getusercurrent session")
+        session_id = auth.session_cookie(request)
+    
+        if session_id is None:
+            abort(401, description="Unauthorized")  # No session ID, return 401 Unauthorized
         
-    print(f"Authenticated user: {user.email}, ID: {user.id}")
-    # Return user information
-    return jsonify({
-        'email': user.email,
-        'password': user.password,
-        'id': user.id
-    })
+        # Retrieve the user ID associated with the session ID
+        user_id = auth.user_id_for_session_id(session_id)
+        
+        if user_id is None:
+            abort(403, description="Forbidden")  # No user associated with this session, return 403 Forbidden
+        
+        # Retrieve the user details from the user_id (assuming there's a User model to retrieve user data)
+        user = User.get_user_by_id(user_id)  # Implement this logic in your User model
+        
+        if user is None:
+            abort(403, description="Forbidden")  # User not found, return 403 Forbidden
+        
+        # Return user information
+        return jsonify({
+            "user_id": user.id,
+            "email": user.email,
+            "name": user.name
+        })
+        
+    else:
+        # Initialize the BasicAuth instance
+        auth = BasicAuth()
+        user = auth.current_user(request)
+        if user is None:
+            print("No authenticated user found")  # Debugging
+            abort(401)
+            
+        print(f"Authenticated user: {user.email}, ID: {user.id}")
+        # Return user information
+        return jsonify({
+            'email': user.email,
+            'password': user.password,
+            'id': user.id
+        })
 
 @app_views.route('/users', methods=['GET'], strict_slashes=False)
 def view_all_users() -> str:

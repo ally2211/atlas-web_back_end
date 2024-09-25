@@ -45,7 +45,9 @@ def before_request_handler():
     print("Running before_request handler")
     # List of paths where no authorization is required
     excluded_paths = ['/api/v1/status/',
-                      '/api/v1/unauthorized/', '/api/v1/forbidden/']
+                      '/api/v1/unauthorized/',
+                      '/api/v1/forbidden/',
+                      '/api/v1/auth_session/login/']
 
     # Assign the result of current_user to request.current_user
     request.current_user = auth.current_user(request)
@@ -65,11 +67,15 @@ def before_request_handler():
 
     # Check for Authorization header
     auth_header = auth.authorization_header(request)
-    print(f"Authorization Header found: {auth_header}")  # Debugging
-    if auth_header is None:
+    cookie_header = auth.session_cookie(request)
+    print(f"Authorization Header found: {auth_header} cookie header: {cookie_header}")  # Debugging
+    if auth_header is None and cookie_header is None:
         # If the Authorization header is missing, trigger 401
         print("No authorization header, aborting with 401")
         abort(401)
+        
+    if cookie_header is None:
+        abort(403) # Forbidden
 
     # If the header exists but is invalid (e.g., "Basic test"), return 403
     base64_credentials = auth.extract_base64_authorization_header(auth_header)
@@ -112,3 +118,4 @@ if __name__ == "__main__":
     host = getenv("API_HOST", "0.0.0.0")
     port = getenv("API_PORT", "5000")
     app.run(host=host, port=port)
+    debug=True
