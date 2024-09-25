@@ -28,7 +28,7 @@ class TestAccessNestedMap(unittest.TestCase):
         ({}, ("a",), "'a'"),                     # Test case 1: empty dictionary
         ({"a": 1}, ("a", "b"), "'b'"),           # Test case 2: key "a" exists, "b" does not
     ])
-    def test_access_nested_map_key_error(self, nested_map, path,  expected_message):
+    def test_access_nested_map_exception(self, nested_map, path,  expected_message):
         """Test that access_nested_map raises KeyError with the expected message."""
         with self.assertRaises(KeyError) as context:
             access_nested_map(nested_map, path)
