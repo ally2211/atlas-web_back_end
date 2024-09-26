@@ -19,7 +19,6 @@ CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 
 # Get the value of AUTH_TYPE environment variable
 auth_type = getenv('AUTH_TYPE')
-auth = BasicAuth()
 from api.v1.auth.session_auth import SessionAuth
 
 
@@ -28,7 +27,7 @@ if auth_type == 'basic_auth':
     auth = BasicAuth()  # Use BasicAuth if AUTH_TYPE is set to 'basic_auth'
     print("Using BasicAuth for authentication")
 elif auth_type == 'session_auth':
-    auth = SessionAuth()  # Use BasicAuth if AUTH_TYPE is set to 'basic_auth'
+    auth = SessionAuth()  # Use SessionAuth
     print("Using SessionAuth for authentication")
 else:
     auth = Auth()  # Default to using the Auth class
@@ -59,23 +58,32 @@ def before_request_handler():
         # Do nothing, simply proceed with the request
         return None
 
+    # Initialize cookie_header to None before conditional checks
+    cookie_header = None
+    
     # Check if the path requires authentication
     if not auth.require_auth(request_path,
                              [path.rstrip('/') for path in excluded_paths]):
         # Path is excluded, no authentication required
         return None
 
-    # Check for Authorization header
+
+    # Check for Authorization header (for BasicAuth) first
     auth_header = auth.authorization_header(request)
-    cookie_header = auth.session_cookie(request)
+
+    # Check for Session cookie (for SessionAuth) if no Authorization header is found
+    if auth_header is None:
+        cookie_header = auth.session_cookie(request)
+
+    if not auth_header and not cookie_header:
+        # No valid authentication provided, return a 401 error
+        return jsonify({"error": "Unauthorized"}), 401
+    
     print(f"Authorization Header found: {auth_header} cookie header: {cookie_header}")  # Debugging
     if auth_header is None and cookie_header is None:
         # If the Authorization header is missing, trigger 401
         print("No authorization header, aborting with 401")
         abort(401)
-        
-    if cookie_header is None:
-        abort(403) # Forbidden
 
     # If the header exists but is invalid (e.g., "Basic test"), return 403
     base64_credentials = auth.extract_base64_authorization_header(auth_header)
