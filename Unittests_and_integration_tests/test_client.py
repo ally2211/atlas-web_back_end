@@ -10,6 +10,28 @@ from client import GithubOrgClient
 
 class TestGithubOrgClient(unittest.TestCase):
     """Test class for GithubOrgClient"""
+
+    @parameterized.expand([
+        # Repo has my_license
+        ({"license": {"key": "my_license"}}, "my_license", True),
+        ({"license": {"key": "other_license"}}, "my_license", False),
+        # Repo has other_license, looking for my_license
+        ({"license": {"key": "other_license"}}, "other_license", True),
+        # Repo has other_license
+        ({"license": None}, "my_license", False),
+        # No license key, looking for my_license
+        ({}, "my_license", False)
+        # No license information
+    ])
+    def test_has_license(self, repo, license_key, expected_result):
+        """
+        Unit test for GithubOrgClient.has_license,
+        parameterized with multiple cases
+        """
+        client = GithubOrgClient("test_org")
+        result = client.has_license(repo, license_key)
+        self.assertEqual(result, expected_result)
+
     @patch('client.get_json')
     def test_public_repos(self, mock_get_json):
         """Unit test for GithubOrgClient.public_repos"""
