@@ -126,37 +126,39 @@ class TestMemoize(unittest.TestCase):
 
 
 class TestGithubOrgClient(unittest.TestCase):
-
+    '''
+    Patch get_json where it is used in the client module
+    '''
     @parameterized.expand([
         ("google",),
         ("abc",),
     ])
-    @patch('client.get_json')  # Patch get_json where it's used in the client module
+    @patch('client.get_json')
     def test_org(self, org_name, mock_get_json):
-        """
-        Test that get_json is called exactly once when retrieving an organization,
-        even when org() is called multiple times due to memoization.
-        """
-        # Mock return value for get_json as a dictionary (simulating an API response)
+        '''
+        Test that get_json is called exactly once
+        when retrieving an organization
+        '''
+        # Mock return value for get_json
         mock_get_json.return_value = {"name": org_name}
 
         # Create an instance of GithubOrgClient with the org_name
         client = GithubOrgClient(org_name)
 
         # Call the memoized org() method twice to check memoization behavior
-        result_first_call = client.org()  # First call should trigger get_json
-        result_second_call = client.org()  # Second call should return cached result
+        result_first_call = client.org()
+        result_second_call = client.org()
 
-        # Assert that get_json was called exactly once, despite calling org() twice
-        mock_get_json.assert_called_once_with(f"https://api.github.com/orgs/{org_name}")
+        # Assert that get_json was called exactly once
+        mock_get_json.assert_called_once_with(
+            f"https://api.github.com/orgs/{org_name}")
 
         # Assert that the returned organization name is correct
         self.assertEqual(result_first_call["name"], org_name)
         self.assertEqual(result_second_call["name"], org_name)
 
-        # Assert that both calls return the same cached result (i.e., memoization works)
+        # Assert that both calls return the same cached result
         self.assertIs(result_first_call, result_second_call)
-
 
 if __name__ == "__main__":
     unittest.main()
