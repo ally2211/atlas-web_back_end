@@ -22,6 +22,18 @@ class TestGithubOrgClient(unittest.TestCase):
             f"https://api.github.com/orgs/{org_name}")
         self.assertEqual(org, {"login": "test-org"})
 
+    def test_public_repos_url(self):
+        """Unit test for GithubOrgClient._public_repos_url"""
+        client = GithubOrgClient("google")
+
+        # Mock payload returned by the org property
+        mock_payload = {"repos_url":
+                        "https://api.github.com/orgs/google/repos"}
+
+        with patch.object(GithubOrgClient, 'org', return_value=mock_payload):
+            result = client._public_repos_url
+            self.assertEqual(result, mock_payload["repos_url"])
+
 
 if __name__ == '__main__':
     unittest.main()
