@@ -72,6 +72,9 @@ class TestGetJson(unittest.TestCase):
 
 # Define TestClass outside the test function so that it can be patched
 class TestClass:
+    '''
+        Define the test class with memoize
+    '''
     def a_method(self):
         """
         A simple method that returns 42.
