@@ -17,7 +17,7 @@ class User(Base):
         self._password = kwargs.get('_password')
         self.first_name = kwargs.get('first_name')
         self.last_name = kwargs.get('last_name')
-        print(f"User created: {self.email}, Password: {self.password}")  # Debugging
+        # print(f"User created: {self.email}, Password: {self.password}")  # Debugging
         
     @property
     def password(self) -> str:
