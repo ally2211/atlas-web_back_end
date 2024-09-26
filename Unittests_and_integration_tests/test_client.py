@@ -4,8 +4,63 @@ create a unit test for client
 """
 import unittest
 from unittest.mock import PropertyMock, patch
-from parameterized import parameterized
+from parameterized import parameterized, parameterized_class
 from client import GithubOrgClient
+import fixtures
+
+
+@parameterized_class([
+    {
+        "org_payload": fixtures.TEST_PAYLOAD[0][0],
+        "repos_payload": fixtures.TEST_PAYLOAD[0][1],
+        "expected_repos": ["episodes.dart", "another_repo"],
+        "apache2_repos": ["episodes.dart"] 
+    }
+])
+class TestIntegrationGithubOrgClient(unittest.TestCase):
+    """Integration tests for GithubOrgClient"""
+
+    @classmethod
+    def setUpClass(cls):
+        """Set up the class with the necessary patching and fixtures"""
+        # Start patching 'requests.get' with a mock
+        cls.get_patcher = patch('requests.get')
+        cls.mock_get = cls.get_patcher.start()
+
+        # Define side effects for 'requests.get' based on the URL called
+        def get_side_effect(url):
+            if url == "https://api.github.com/orgs/google":
+                return MockResponse(cls.org_payload)  # Return org_payload mock
+            elif url == cls.org_payload["repos_url"]:
+                return MockResponse(cls.repos_payload)  # Return repos_payload mock
+            return None
+
+        cls.mock_get.side_effect = get_side_effect
+
+    @classmethod
+    def tearDownClass(cls):
+        """Stop patching 'requests.get'"""
+        cls.get_patcher.stop()
+
+    def test_public_repos(self):
+        """Test that public_repos returns the correct list of repositories"""
+        client = GithubOrgClient("google")
+        repos = client.public_repos()
+        self.assertEqual(repos, self.expected_repos)
+
+    def test_public_repos_with_license(self):
+        """Test filtering repos by Apache 2.0 license"""
+        client = GithubOrgClient("google")
+        repos = client.public_repos(license="apache-2.0")
+        self.assertEqual(repos, self.apache2_repos)
+
+class MockResponse:
+    """Mock response class to simulate requests.get().json()"""
+    def __init__(self, json_data):
+        self.json_data = json_data
+
+    def json(self):
+        return self.json_data
 
 
 class TestGithubOrgClient(unittest.TestCase):
