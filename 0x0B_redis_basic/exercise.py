@@ -5,7 +5,10 @@ Class Cache store and get
 from functools import wraps
 import redis
 import uuid
-from typing import Union, Any, Callable, Optional
+from typing import Union, Any, Callable, Optional, TypeVar
+
+T = TypeVar('T')
+
 
 def count_calls(method: Callable) -> Callable:
     """
@@ -43,7 +46,7 @@ class Cache:
         return key
     
     @count_calls
-    def get(self, key: str, fn: Callable[[bytes], Any] = None) -> Any:
+    def get(self, key: str, fn: Callable[[bytes], T] = None) -> Union[bytes, T, None]:
         """
         Retrieve data from Redis
         and optionally apply a transformation function.
@@ -58,3 +61,11 @@ class Cache:
             return fn(data)
         # Return the raw byte string if no transformation function is provided
         return data
+
+    @count_calls
+    def get_str(self, key: str) -> str:
+        return self.get(key, lambda data: data.decode('utf-8'))
+
+    @count_calls
+    def get_int(self, key: str) -> int:
+        return self.get(key, lambda data: int(data))
