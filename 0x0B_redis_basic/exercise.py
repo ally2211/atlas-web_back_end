@@ -43,7 +43,7 @@ class Cache:
         return key
     
     @count_calls
-    def get(self, key: str, fn: Optional[Callable[[bytes], Any]] = None) -> Any:
+    def get(self, key: str, fn: Callable[[bytes], Any] = None) -> Any:
         """
         Retrieve data from Redis
         and optionally apply a transformation function.
