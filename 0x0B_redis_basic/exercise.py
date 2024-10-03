@@ -1,3 +1,7 @@
+#!/usr/bin/env python3
+"""
+Class Cache
+"""
 import redis
 import uuid
 from typing import Any
