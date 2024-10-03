@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """
-Class Cache
+Class Cache store and get
 """
 import redis
 import uuid
-from typing import Any
+from typing import Any, Callable, Optional
 
 
 class Cache:
@@ -25,3 +25,22 @@ class Cache:
         self._redis.set(key, data)
         # Return the generated key
         return key
+    
+    def get(self, key: str, fn: Optional[Callable[[bytes], Any]] = None) -> Any:
+        """
+        Retrieve data from Redis
+        and optionally apply a transformation function.
+        """
+        # Retrieve data from Redis
+        data = self._redis.get(key)
+        
+        # If the data is None, return None
+        if data is None:
+            return None
+        
+        # If a transformation function is provided, apply it to the data
+        if fn is not None:
+            return fn(data)
+        
+        # Return the raw byte string if no transformation function is provided
+        return data
