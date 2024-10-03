@@ -4,7 +4,7 @@ Class Cache store and get
 """
 import redis
 import uuid
-from typing import Any, Callable, Optional
+from typing import Union, Any, Callable, Optional
 
 
 class Cache:
@@ -15,7 +15,7 @@ class Cache:
         # Flush the Redis database to clear any existing data
         self._redis.flushdb()
 
-    def store(self, data: Any) -> str:
+    def store(self, data: Union[str, bytes, int, float]) -> str:
         """
         Store the input data in Redis with a random key.
         """
@@ -44,3 +44,15 @@ class Cache:
         
         # Return the raw byte string if no transformation function is provided
         return data
+
+    def get_str(self, key: str) -> Optional[str]:
+        """
+        Retrieve a string value from Redis.
+        """
+        return self.get(key, lambda data: data.decode('utf-8'))
+
+    def get_int(self, key: str) -> Optional[int]:
+        """
+        Retrieve an integer value from Redis.
+        """
+        return self.get(key, lambda data: int(data))
