@@ -72,6 +72,9 @@ def count_calls(method: Callable) -> Callable:
 
 
 class Cache:
+    '''
+    Cache class to interact with Redis for storing and retrieving data.
+    '''
     def __init__(self):
         '''
         Initialize the Redis client and assign it to the private variable
