@@ -10,12 +10,12 @@ import json
 T = TypeVar('T')
 
 
-
 def replay(method: Callable) -> None:
     """
     Display the history of inputs and outputs for a particular function.
     """
-    redis_client = method.__self__._redis  # Access the Redis client from the class instance
+    # Access the Redis client from the class instance
+    redis_client = method.__self__._redis
 
     # Generate keys for storing input and output history
     input_key = f"{method.__qualname__}:inputs"
@@ -33,6 +33,7 @@ def replay(method: Callable) -> None:
     print(f"{method.__qualname__} was called {len(inputs)} times:")
     for i, (input_args, output) in enumerate(zip(inputs, outputs)):
         print(f"{method.__qualname__}(*{input_args}) -> {output}")
+
 
 def call_history(method: Callable) -> Callable:
     """
@@ -52,6 +53,7 @@ def call_history(method: Callable) -> Callable:
         return result
     return wrapper
 
+
 def count_calls(method: Callable) -> Callable:
     """
     Decorator to count how many times a method is called.
@@ -68,9 +70,12 @@ def count_calls(method: Callable) -> Callable:
         return result
     return wrapper
 
+
 class Cache:
     def __init__(self):
-        # Initialize the Redis client and assign it to the private variable
+        '''
+        Initialize the Redis client and assign it to the private variable
+        '''
         self._redis = redis.Redis(host='localhost', port=6379, db=0)
         # Flush the Redis database to clear any existing data
         self._redis.flushdb()
@@ -86,9 +91,10 @@ class Cache:
         self._redis.set(key, data)
         # Return the generated key
         return key
-    
+
     @call_history
-    def get(self, key: str, fn: Callable[[bytes], T] = None) -> Union[bytes, T, None]:
+    def get(self, key: str, fn: Callable[[bytes], T] = None
+            ) -> Union[bytes, T, None]:
         """
         Retrieve data from Redis
         and optionally apply a transformation function.
@@ -106,13 +112,19 @@ class Cache:
 
     @call_history
     def get_str(self, key: str) -> str:
+        '''
+        retrieve data from Redis and convert to string
+        '''
         return self.get(key, lambda data: data.decode('utf-8'))
 
     @call_history
     def get_int(self, key: str) -> int:
+        '''
+        retrieve data from Redis and convert to int
+        '''
         return self.get(key, lambda data: int(data))
-    
-    
+
+
 # Example usage in terminal
 if __name__ == "__main__":
     cache = Cache()
