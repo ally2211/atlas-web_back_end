@@ -10,6 +10,30 @@ import json
 T = TypeVar('T')
 
 
+
+def replay(method: Callable) -> None:
+    """
+    Display the history of inputs and outputs for a particular function.
+    """
+    redis_client = method.__self__._redis  # Access the Redis client from the class instance
+
+    # Generate keys for storing input and output history
+    input_key = f"{method.__qualname__}:inputs"
+    output_key = f"{method.__qualname__}:outputs"
+
+    # Retrieve the stored inputs and outputs from Redis
+    inputs = redis_client.lrange(input_key, 0, -1)
+    outputs = redis_client.lrange(output_key, 0, -1)
+
+    # Decode the byte strings into regular strings for display
+    inputs = [input_data.decode('utf-8') for input_data in inputs]
+    outputs = [output_data.decode('utf-8') for output_data in outputs]
+
+    # Display the history of calls
+    print(f"{method.__qualname__} was called {len(inputs)} times:")
+    for i, (input_args, output) in enumerate(zip(inputs, outputs)):
+        print(f"{method.__qualname__}(*{input_args}) -> {output}")
+
 def call_history(method: Callable) -> Callable:
     """
     Decorator to store the history of inputs and outputs for a method in Redis.
@@ -87,3 +111,12 @@ class Cache:
     @call_history
     def get_int(self, key: str) -> int:
         return self.get(key, lambda data: int(data))
+    
+    
+# Example usage in terminal
+if __name__ == "__main__":
+    cache = Cache()
+    cache.store("foo")
+    cache.store("bar")
+    cache.store(42)
+    replay(cache.store)
