@@ -6,9 +6,27 @@ from functools import wraps
 import redis
 import uuid
 from typing import Union, Any, Callable, Optional, TypeVar
-
+import json
 T = TypeVar('T')
 
+
+def call_history(method: Callable) -> Callable:
+    """
+    Decorator to store the history of inputs and outputs for a method in Redis.
+    """
+    @wraps(method)
+    def wrapper(self, *args, **kwargs):
+        # Generate keys for storing input and output history
+        input_key = f"{method.__qualname__}:inputs"
+        output_key = f"{method.__qualname__}:outputs"
+        # Store the input arguments as a JSON string
+        self._redis.rpush(input_key, str(args))
+        # Call the original method and store the output
+        result = method(self, *args)
+        # Store the output result as a JSON string
+        self._redis.rpush(output_key, str(result))
+        return result
+    return wrapper
 
 def count_calls(method: Callable) -> Callable:
     """
@@ -33,7 +51,7 @@ class Cache:
         # Flush the Redis database to clear any existing data
         self._redis.flushdb()
 
-    @count_calls
+    @call_history
     def store(self, data: Union[str, bytes, int, float]) -> str:
         """
         Store the input data in Redis with a random key.
@@ -45,7 +63,7 @@ class Cache:
         # Return the generated key
         return key
     
-    @count_calls
+    @call_history
     def get(self, key: str, fn: Callable[[bytes], T] = None) -> Union[bytes, T, None]:
         """
         Retrieve data from Redis
@@ -62,10 +80,10 @@ class Cache:
         # Return the raw byte string if no transformation function is provided
         return data
 
-    @count_calls
+    @call_history
     def get_str(self, key: str) -> str:
         return self.get(key, lambda data: data.decode('utf-8'))
 
-    @count_calls
+    @call_history
     def get_int(self, key: str) -> int:
         return self.get(key, lambda data: int(data))
