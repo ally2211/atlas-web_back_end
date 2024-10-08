@@ -1,6 +1,6 @@
 -- now count
 SELECT band_name, 
-(int(split) - int(formed)) as lifespan
+10 as lifespan
 FROM metal_bands
 WHERE style = 'Glam rock'
 GROUP BY band_name
