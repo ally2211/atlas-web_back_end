@@ -1,10 +1,10 @@
-const fs = require('fs');
+const fs = require('fs').promises;  // Use promises-based file reading
 
-// Function to count students and list their names by group
-function countStudents(filePath) {
+// Asynchronous function to count students and list their names by group
+async function countStudents(filePath) {
     try {
-        // Read the CSV file synchronously
-        const data = fs.readFileSync(filePath, 'utf8');
+        // Read the CSV file asynchronously
+        const data = await fs.readFile(filePath, 'utf8');
         
         // Split the file content by newlines to get rows
         const lines = data.split('\n');
