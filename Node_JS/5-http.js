@@ -28,7 +28,7 @@ const app = http.createServer(async (req, res) => {
             };
 
             // Call countStudents (which uses console.log internally)
-            await countStudents('database.csv');
+            await countStudents(filePath);
 
             // Restore the original console.log
             console.log = originalConsoleLog;
