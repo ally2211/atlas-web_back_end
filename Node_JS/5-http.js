@@ -10,7 +10,7 @@ if (!filePath) {
 
 
 // Create an HTTP server
-const server = http.createServer(async (req, res) => {
+const app = http.createServer(async (req, res) => {
     // Send a response depending on the URL
     if (req.url === '/') {
         // Set the response header
@@ -52,7 +52,7 @@ const server = http.createServer(async (req, res) => {
 
 // Export the app (HTTP server)
 // module.exports = app;
-// Start the server on port 3000
-server.listen(1245, () => {
+// Start the server on port 1245
+app.listen(1245, () => {
     console.log('Server is running on http://localhost:1245');
 });
