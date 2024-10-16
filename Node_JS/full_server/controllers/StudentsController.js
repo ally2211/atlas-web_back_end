@@ -28,7 +28,7 @@ class StudentsController {
             const students = await readDatabase(filePath);
 
             if (!students[major]) {
-                return res.status(404).send(`Major ${major} not found`);
+                return res.status(500).send(`Major parameter must be CS or SWE`);
             }
 
             const list = students[major].join(', ');
