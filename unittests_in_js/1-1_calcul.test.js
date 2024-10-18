@@ -20,7 +20,8 @@ describe('calculateNumber', function () {
             assert.throws(() => calculateNumber('DIVIDE', 5, 0),/Cannot divide by zero/);
         });
         it('should return the quotient of the rounded numbers', function () {
-            assert.notDeepEqual(calculateNumber('DIVIDE', 1.4, 4.5), 0.2)
+            const roundedResult = Math.round(calculateNumber('DIVIDE', 1.4, 4.5) * 10000) / 10000;
+            assert.almostEqual(roundedResult, 0.2);
         });
         });
 
@@ -30,7 +31,3 @@ describe('calculateNumber', function () {
         });
     });
 });
-
-function almostEqual(a, b, epsilon = 1e-9) {
-    return Math.abs(a - b) < epsilon;
-}
