@@ -1,11 +1,17 @@
 {
   "name": "unittests_in_js",
   "version": "1.0.0",
+  "type": "module",
   "description": "unittests",
   "main": "example.test.js",
   "scripts": {
     "test": "mocha"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^5.1.1",
+    "mocha": "^10.7.3"
+  }
+
 }
