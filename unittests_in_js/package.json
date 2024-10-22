@@ -1,7 +1,6 @@
 {
   "name": "unittests_in_js",
   "version": "1.0.0",
-  "type": "module",
   "description": "unittests",
   "main": "example.test.js",
   "scripts": {
