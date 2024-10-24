@@ -1,13 +1,14 @@
-function calculateNumber(type, a, b){
+utils = {
+calculateNumber(mathtype, a, b) {
     const roundedA = Math.round(a);
     const roundedB = Math.round(b);
-    if (type === 'SUM') {
+    if (mathtype === 'SUM') {
         return Math.round(a) + Math.round(b);
     }
-    else if (type === 'SUBTRACT') {
+    else if (mathtype === 'SUBTRACT') {
         return Math.round(a) - Math.round(b);
     }
-    else if (type === 'DIVIDE') {
+    else if (mathtype === 'DIVIDE') {
         if (Math.round(b) === 0) {
             throw new Error('Cannot divide by zero');
         
@@ -16,8 +17,9 @@ function calculateNumber(type, a, b){
         }
     }
     else {
-        throw new Error('Invalid operation type');
+        throw new Error('Invalid operation mathtype');
     }
 }
+}
 
-module.exports = calculateNumber;
+module.exports = utils;

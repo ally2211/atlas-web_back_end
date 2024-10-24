@@ -9,8 +9,10 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "chai": "^5.1.1",
+    "chai": "^4.2.0",
     "mocha": "^10.7.3",
-    "sinon": "^19.0.2"
+    "sinon": "^9.2.3",
+    "babel-preset-env": "^1.7.0",
+    "babel-cli": "^6.26.0"
   }
 }

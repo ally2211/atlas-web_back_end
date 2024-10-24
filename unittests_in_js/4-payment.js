@@ -1,8 +1,8 @@
-const calculateNumber = require('./utils.js'); // Import the function
+const utils = require('./utils.js'); // Import the function
 
 
 function sendPaymentRequestToApi(totalAmount, totalShipping){
-    const result = calculateNumber('SUM', totalAmount, totalShipping);
+    const result = utils.calculateNumber('SUM', totalAmount, totalShipping);
     console.log(`The total is: ${result}`);
 }
 

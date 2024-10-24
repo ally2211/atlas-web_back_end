@@ -1,6 +1,6 @@
 const sinon = require('sinon');
 const { expect } = require('chai');
-const calculateNumber = require('./utils.js'); // Import the original function
+const utils = require('./utils.js'); // Import the original function
 const sendPaymentRequestToApi = require('./4-payment.js'); // Import the function to test
 
 describe('sendPaymentRequestToApi', () => {
@@ -9,7 +9,7 @@ describe('sendPaymentRequestToApi', () => {
 
     beforeEach(() => {
         // Stub the calculateNumber function to always return 10
-        calculateNumberStub = sinon.stub(calculateNumber, 'calculateNumber').returns(10);
+        calculateNumberStub = sinon.stub(utils, 'calculateNumber').returns(10);
 
         // Stub console.log
         consoleLogStub = sinon.stub(console, 'log');
