@@ -3,7 +3,7 @@ const kue = require('kue');
 // Create a queue
 const queue = kue.createQueue();
 
-//import createPushNotificationsJobs from './8-job.js';
+//import createPushNotificationJobs from './8-job.js';
 
 const createPushNotificationJobs = require('./8-job.js'); // Import the function
 
