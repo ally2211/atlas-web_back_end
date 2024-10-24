@@ -2,7 +2,7 @@
 
 const sinon = require('sinon'); // Import Sinon
 //let { calculateNumber } = require('../utils.js'); // Import the function to spy on
-const { sendPaymentRequestToApi } = require('../3-payment.js'); // Import the function to test
+const sendPaymentRequestToApi = require('../3-payment.js'); // Import the function to test
 
 
 // You might need to adjust this based on your module system
