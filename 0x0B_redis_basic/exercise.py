@@ -2,7 +2,8 @@ import redis
 import functools
 from typing import Callable, Optional
 
-#function to display the history of calls of a particular function.
+
+# function to display the history of calls of a particular function.
 def replay(method: Callable) -> None:
     """
     Display the history of inputs and outputs for a particular function.
@@ -27,6 +28,7 @@ def replay(method: Callable) -> None:
     for i, (input_args, output) in enumerate(zip(inputs, outputs)):
         print(f"{method.__qualname__}(*{input_args}) -> {output}")
 
+
 # Decorator to count how many times a method is called
 def count_calls(method: Callable) -> Callable:
     """
@@ -34,9 +36,12 @@ def count_calls(method: Callable) -> Callable:
     """
     @functools.wraps(method)  # Preserve function metadata
     def wrapper(self, *args, **kwargs):
-        key = method.__qualname__  # Use the method's qualified name as the key
-        self._redis.incr(key)  # Increment the count in Redis
-        return method(self, *args, **kwargs)  # Call the original method
+        # Use the method's qualified name as the key
+        key = method.__qualname__
+        # Increment the count in Redis
+        self._redis.incr(key)
+        # Call the original method
+        return method(self, *args, **kwargs)
     return wrapper
 
 
@@ -47,15 +52,22 @@ def call_history(method: Callable) -> Callable:
     """
     @functools.wraps(method)  # Preserve function metadata
     def wrapper(self, *args, **kwargs):
-        input_key = f"{method.__qualname__}:inputs"  # Create input key
-        output_key = f"{method.__qualname__}:outputs"  # Create output key
-        
-        self._redis.rpush(input_key, str(args))  # Store function input in Redis
-        output = method(self, *args, **kwargs)  # Call the original function
-        self._redis.rpush(output_key, str(output))  # Store function output in Redis
-        
-        return output  # Return the function's output
+        # Create input key
+        input_key = f"{method.__qualname__}:inputs"
+        # Create output key
+        output_key = f"{method.__qualname__}:outputs"
+
+        # Store function input in Redis
+        self._redis.rpush(input_key, str(args))
+        # Call the original function
+        output = method(self, *args, **kwargs)
+        # Store function output in Redis
+        self._redis.rpush(output_key, str(output))
+
+        # Return the function's output
+        return output
     return wrapper
+
 
 class Cache:
     def __init__(self):
@@ -65,32 +77,41 @@ class Cache:
         self._redis = redis.Redis()
 
     @count_calls  # Apply the decorator to count method calls
-    @call_history  # Apply the decorator to track call history    
+    @call_history  # Apply the decorator to track call history
     def store(self, data: str) -> str:
         """
         Store data in Redis and return the key.
         """
-        key = str(hash(data))  # Generate a unique key using the hash of the data
-        self._redis.set(key, data)  # Store the data in Redis with the generated key
-        return key  # Return the key
+        # Generate a unique key using the hash of the data
+        key = str(hash(data))
+        # Store the data in Redis with the generated key
+        self._redis.set(key, data)
+        # Return the key
+        return key
 
     def get(self, key: str, fn: Optional[Callable] = None):
         """
-        Retrieve data from Redis by key and apply an optional conversion function.
+        Retrieve data from Redis by key
+        and apply an optional conversion function.
         """
-        data = self._redis.get(key)  # Retrieve the data from Redis
+        # Retrieve the data from Redis
+        data = self._redis.get(key)
         if data is None:
-            return None  # Return None if the key does not exist
-        return fn(data) if fn else data  # Apply conversion function if provided
+            # Return None if the key does not exist
+            return None
+        # Apply conversion function if provided
+        return fn(data) if fn else data
 
     def get_str(self, key: str) -> Optional[str]:
         """
         Retrieve data from Redis and decode it as a string.
         """
-        return self.get(key, lambda d: d.decode("utf-8"))  # Decode the data from bytes to string
+        # Decode the data from bytes to string
+        return self.get(key, lambda d: d.decode("utf-8"))
 
     def get_int(self, key: str) -> Optional[int]:
         """
         Retrieve data from Redis and convert it to an integer.
         """
-        return self.get(key, lambda d: int(d))  # Convert the data from bytes to integer
+        # Convert the data from bytes to integer
+        return self.get(key, lambda d: int(d))
