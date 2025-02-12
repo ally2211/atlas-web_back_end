@@ -84,8 +84,8 @@ class Cache:
         """
         self._redis = redis.Redis()
 
-    @count_calls  # Apply the decorator to count method calls
     @call_history  # Apply the decorator to track call history
+    @count_calls  # Apply the decorator to count method calls
     def store(self, data: str) -> str:
         """
         Store data in Redis and return the key.
