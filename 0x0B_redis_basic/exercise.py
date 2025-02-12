@@ -40,8 +40,8 @@ def count_calls(method: Callable) -> Callable:
     """
     @functools.wraps(method)  # Preserve function metadata
     def wrapper(self, *args, **kwargs):
-        # Use the class name and method's qualified name as the key
-        key = f"{self.__class__.__name__}:{method.__qualname__}"
+        # Use the method's qualified name as the key
+        key = method.__qualname__
         # Increment the count in Redis
         self._redis.incr(key)
         # Call the original method
@@ -57,9 +57,9 @@ def call_history(method: Callable) -> Callable:
     @functools.wraps(method)  # Preserve function metadata
     def wrapper(self, *args, **kwargs):
         # Create input key
-        input_key = f"{self.__class__.__name__}:{method.__qualname__}:inputs"
+        input_key = f"{method.__qualname__}:inputs"
         # Create output key
-        output_key = f"{self.__class__.__name__}:{method.__qualname__}:outputs"
+        output_key = f"{method.__qualname__}:outputs"
 
         # Store function input in Redis
         self._redis.rpush(input_key, str(args))
