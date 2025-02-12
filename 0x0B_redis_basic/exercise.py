@@ -75,7 +75,7 @@ def call_history(method: Callable) -> Callable:
 
 class Cache:
     '''
-    Cache class to interact 
+    Cache class to interact
     with Redis for storing and retrieving data.
     '''
     def __init__(self):
