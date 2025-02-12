@@ -60,8 +60,8 @@ def count_calls(method: Callable) -> Callable:
     it is useful to use functool.wraps to conserve the 
     original function’s name
     """
-    @functools.wraps(method)
-    #@wraps(method)
+    #@functools.wraps(method)
+    @wraps(method)
     def wrapper(self, *args, **kwargs):
         # Generate the Redis key using the method's qualified name
         key = method.__qualname__
