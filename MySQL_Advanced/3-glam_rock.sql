@@ -1,6 +1,6 @@
 -- count years as split - formed
 SELECT band_name,
-(IFNULL(split, YEAR(DATE())) - IFNULL(formed, YEAR(DATE()))) AS lifespan 
+(IFNULL(split, YEAR(CURDATE())) - IFNULL(formed, YEAR(CURDATE()))) AS lifespan 
 FROM metal_bands
 WHERE style like '%Glam rock%'
-ORDER BY lifespan desc;
+ORDER BY lifespan DESC;
