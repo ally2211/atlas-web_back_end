@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Class Cache store and get
+Class Cache to store and get
 """
 from functools import wraps
 import redis

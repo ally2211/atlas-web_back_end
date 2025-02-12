@@ -6,7 +6,6 @@ import redis
 
 
 Cache = __import__('exercise').Cache
-
 cache = Cache()
 
 data = b"hello"
