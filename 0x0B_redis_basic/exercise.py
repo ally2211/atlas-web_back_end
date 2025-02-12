@@ -5,10 +5,10 @@ Class Cache to store and get
 from functools import wraps
 import redis
 import uuid
+import functools
 from typing import Union, Any, Callable, Optional, TypeVar
 import json
 T = TypeVar('T')
-
 
 def replay(method: Callable) -> None:
     """
@@ -57,8 +57,11 @@ def call_history(method: Callable) -> Callable:
 def count_calls(method: Callable) -> Callable:
     """
     Decorator to count how many times a method is called.
+    it is useful to use functool.wraps to conserve the 
+    original function’s name
     """
-    @wraps(method)
+    @functools.wraps(method)
+    #@wraps(method)
     def wrapper(self, *args, **kwargs):
         # Generate the Redis key using the method's qualified name
         key = method.__qualname__
@@ -83,7 +86,7 @@ class Cache:
         # Flush the Redis database to clear any existing data
         self._redis.flushdb()
 
-    @call_history
+    @count_calls
     def store(self, data: Union[str, bytes, int, float]) -> str:
         """
         Store the input data in Redis with a random key.
