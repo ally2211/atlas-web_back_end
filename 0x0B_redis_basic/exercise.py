@@ -1,3 +1,7 @@
+#!/usr/bin/env python3
+"""
+Class Cache store and get
+"""
 import redis
 import functools
 from typing import Callable, Optional
