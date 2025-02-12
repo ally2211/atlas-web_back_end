@@ -2,6 +2,31 @@ import redis
 import functools
 from typing import Callable, Optional
 
+#function to display the history of calls of a particular function.
+def replay(method: Callable) -> None:
+    """
+    Display the history of inputs and outputs for a particular function.
+    """
+    # Access the Redis client from the class instance
+    redis_client = method.__self__._redis
+
+    # Generate keys for storing input and output history
+    input_key = f"{method.__qualname__}:inputs"
+    output_key = f"{method.__qualname__}:outputs"
+
+    # Retrieve the stored inputs and outputs from Redis
+    inputs = redis_client.lrange(input_key, 0, -1)
+    outputs = redis_client.lrange(output_key, 0, -1)
+
+    # Decode the byte strings into regular strings for display
+    inputs = [input_data.decode('utf-8') for input_data in inputs]
+    outputs = [output_data.decode('utf-8') for output_data in outputs]
+
+    # Display the history of calls
+    print(f"{method.__qualname__} was called {len(inputs)} times:")
+    for i, (input_args, output) in enumerate(zip(inputs, outputs)):
+        print(f"{method.__qualname__}(*{input_args}) -> {output}")
+
 # Decorator to count how many times a method is called
 def count_calls(method: Callable) -> Callable:
     """
