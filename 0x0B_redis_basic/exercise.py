@@ -1,4 +1,5 @@
 import redis
+import functools
 from typing import Callable, Optional
 
 # Decorator to count how many times a method is called
@@ -6,12 +7,11 @@ def count_calls(method: Callable) -> Callable:
     """
     Decorator to count how many times a method is called.
     """
+    @functools.wraps(method)  # Preserve function metadata
     def wrapper(self, *args, **kwargs):
         key = method.__qualname__  # Use the method's qualified name as the key
         self._redis.incr(key)  # Increment the count in Redis
         return method(self, *args, **kwargs)  # Call the original method
-    wrapper.__name__ = method.__name__  # Preserve function metadata
-    wrapper.__doc__ = method.__doc__
     return wrapper
 
 
