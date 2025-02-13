@@ -1,3 +1,5 @@
+-- create stored procedure that computes
+-- the average score of a student 
 DELIMITER $$
 
 CREATE PROCEDURE AddBonus(
