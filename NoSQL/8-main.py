@@ -8,7 +8,7 @@ if __name__ == "__main__":
 
     client = MongoClient("mongodb://localhost:27017/", serverSelectionTimeoutMS=5000)
     db = client.school
-    print(db.command("ping"))  # Check if the server is reachable
+    # print(db.command("ping"))  # Check if the server is reachable
     
     school_collection = db.school
     schools = list_all(school_collection)

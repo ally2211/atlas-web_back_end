@@ -1,10 +1,6 @@
 #!/usr/bin/env python3
 """
 Write a def to list all docs
-
-def list_all(mongo_collection):
-    return list(mongo_collection.find()) or []
-
 """
 from pymongo import MongoClient
 
