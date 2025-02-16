@@ -1,31 +1,4 @@
 // Write a script that inserts 
 // a document in the collection school
-// Get the database name from command line arguments
-const dbName = process.argv[2];
 
-if (!dbName) {
-    console.error("Usage: mongo <database_name> insert_school.js");
-    process.exit(1);
-}
-
-// Connect to MongoDB
-const { MongoClient } = require("mongodb");
-const uri = "mongodb://localhost:27017"; // MongoDB default connection URI
-
-async function insertDocument() {
-    const client = new MongoClient(uri);
-
-    try {
-        await client.connect();
-        const db = client.db(dbName);
-        const collection = db.collection("school");
-
-        // Insert document
-        const result = await collection.insertOne({ name: "Holberton school" });
-        console.log("Inserted document ID:", result.insertedId);
-    } finally {
-        await client.close();
-    }
-}
-
-insertDocument().catch(console.error);
+db.school.insertOne({ name: "Holberton school" });
