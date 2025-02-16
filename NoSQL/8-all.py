@@ -5,5 +5,5 @@ Write a def to list all docs
 from pymongo import MongoClient
 
 def list_all(mongo_collection):
-    """Lists all documents in a MongoDB collection."""
-    return list(mongo_collection.find()) if mongo_collection.count_documents({}) > 0 else []
+    """Return all documents in a MongoDB collection or an empty list if none exist."""
+    return list(mongo_collection.find()) or []
