@@ -1,5 +1,13 @@
 # NoSQL and MongoDB Guide
 
+## Showing how python script runs in my env
+
+![Alt text](8-run.png)
+![Alt text](9-run.png)
+![Alt text](10-run.png)
+![Alt text](11-run.png)
+![Alt text](12-run.png)
+
 ## What is ACID?
 
 ACID stands for **Atomicity, Consistency, Isolation, and Durability**. These properties ensure that database transactions are processed reliably:
